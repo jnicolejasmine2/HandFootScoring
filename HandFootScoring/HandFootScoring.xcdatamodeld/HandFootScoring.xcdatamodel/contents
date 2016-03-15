@@ -1,4 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Automatic">
+    <entity name="Game" representedClassName=".Game" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="gameDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastCompletedRound" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="maximumNumberOfTeams" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld1Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld1Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meld2Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld2Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meld3Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld3Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meld4Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld4Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meldOption" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sectionDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1Player1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1Player1ImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1Player1Initials" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1Player2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1Player2ImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1Player2Initials" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2Player1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2Player1ImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2Player1Initials" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2Player2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2Player2ImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2Player2Initials" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team3Player1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team3Player1ImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team3Player1Initials" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team3Player2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team3Player2ImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team3Player2Initials" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="rounds" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RoundScore" inverseName="game" inverseEntity="RoundScore" syncable="YES"/>
+    </entity>
+    <entity name="Player" representedClassName=".Player" syncable="YES">
+        <attribute name="emailAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="initials" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="pictureFileName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ProfileGame" representedClassName=".ProfileGame" syncable="YES">
+        <attribute name="gameDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameProfileId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maximumNumberOfTeams" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld1Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld1Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meld2Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld2Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meld3Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld3Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meld4Threshold" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meld4Value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meldOption" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profileScoreElementId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="profileScoreElements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProfileScoreElement" inverseName="game" inverseEntity="ProfileScoreElement" syncable="YES"/>
+    </entity>
+    <entity name="ProfileScoreElement" representedClassName=".ProfileScoreElement" syncable="YES">
+        <attribute name="defaultNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="elementDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="elementNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="gameProfileId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maximumValue" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="minimumValue" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="pointValue" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="requiredNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="winNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="game" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProfileGame" inverseName="profileScoreElements" inverseEntity="ProfileGame" syncable="YES"/>
+    </entity>
+    <entity name="RoundScore" representedClassName=".RoundScore" syncable="YES">
+        <attribute name="gameId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="roundNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="roundTotal" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="teamNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="rounds" inverseEntity="Game" syncable="YES"/>
+        <relationship name="scoreElements" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreElement" inverseName="round" inverseEntity="ScoreElement" syncable="YES"/>
+    </entity>
+    <entity name="ScoreElement" representedClassName=".ScoreElement" syncable="YES">
+        <attribute name="defaultNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="earnedNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="elementDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="elementNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="gameId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maximumValue" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="minimumValue" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="pointValue" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="requiredNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="roundNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="teamNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="winNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoundScore" inverseName="scoreElements" inverseEntity="RoundScore" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Game" positionX="-54" positionY="81" width="128" height="555"/>
+        <element name="Player" positionX="-18" positionY="162" width="128" height="120"/>
+        <element name="ProfileGame" positionX="-63" positionY="-18" width="128" height="255"/>
+        <element name="ProfileScoreElement" positionX="-54" positionY="-9" width="128" height="195"/>
+        <element name="RoundScore" positionX="-45" positionY="144" width="128" height="135"/>
+        <element name="ScoreElement" positionX="-36" positionY="153" width="128" height="240"/>
+    </elements>
 </model>

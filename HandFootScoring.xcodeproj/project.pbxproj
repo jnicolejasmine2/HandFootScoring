@@ -7,14 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		821245D81C9119CB002A4230 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821245D71C9119CB002A4230 /* Style.swift */; };
+		8267A8A31C77B55800F8AAD0 /* NewGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267A8A21C77B55800F8AAD0 /* NewGameViewController.swift */; };
+		8267A8A51C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267A8A41C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift */; };
+		8267A8A71C77CF0400F8AAD0 /* PlayerCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267A8A61C77CF0400F8AAD0 /* PlayerCollectionCell.swift */; };
 		826D81A31C76A2D30067FBCA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81A21C76A2D30067FBCA /* AppDelegate.swift */; };
-		826D81A51C76A2D30067FBCA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81A41C76A2D30067FBCA /* ViewController.swift */; };
+		826D81A51C76A2D30067FBCA /* GameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81A41C76A2D30067FBCA /* GameTableViewController.swift */; };
 		826D81A81C76A2D30067FBCA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826D81A61C76A2D30067FBCA /* Main.storyboard */; };
 		826D81AB1C76A2D30067FBCA /* HandFootScoring.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 826D81A91C76A2D30067FBCA /* HandFootScoring.xcdatamodeld */; };
 		826D81AD1C76A2D30067FBCA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 826D81AC1C76A2D30067FBCA /* Assets.xcassets */; };
 		826D81B01C76A2D30067FBCA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826D81AE1C76A2D30067FBCA /* LaunchScreen.storyboard */; };
 		826D81BB1C76A2D30067FBCA /* HandFootScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81BA1C76A2D30067FBCA /* HandFootScoringTests.swift */; };
 		826D81C61C76A2D30067FBCA /* HandFootScoringUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81C51C76A2D30067FBCA /* HandFootScoringUITests.swift */; };
+		826D81D41C76A6D40067FBCA /* GameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81D31C76A6D40067FBCA /* GameSummaryViewController.swift */; };
+		826D81D81C76AC080067FBCA /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81D71C76AC080067FBCA /* Game.swift */; };
+		826D81DA1C76AE290067FBCA /* RoundScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81D91C76AE290067FBCA /* RoundScore.swift */; };
+		826D81DC1C76B63D0067FBCA /* ScoreElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81DB1C76B63D0067FBCA /* ScoreElement.swift */; };
+		826D81DE1C76B87E0067FBCA /* ProfileScoreElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81DD1C76B87E0067FBCA /* ProfileScoreElement.swift */; };
+		826D81E01C76B8F00067FBCA /* ProfileGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81DF1C76B8F00067FBCA /* ProfileGame.swift */; };
+		826D81E21C76BC760067FBCA /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81E11C76BC760067FBCA /* Player.swift */; };
+		826D81E41C76C67C0067FBCA /* LoadProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81E31C76C67C0067FBCA /* LoadProfiles.swift */; };
+		826D81E61C76C8FC0067FBCA /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D81E51C76C8FC0067FBCA /* CoreDataStackManager.swift */; };
+		828EE7AA1C8A08E9003D81AF /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828EE7A91C8A08E8003D81AF /* PlayerProfileViewController.swift */; };
+		828EE7AC1C8A0EAE003D81AF /* TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828EE7AB1C8A0EAE003D81AF /* TextFieldDelegate.swift */; };
+		829386421C7E7D4000BF3ADD /* GameTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829386411C7E7D4000BF3ADD /* GameTableCell.swift */; };
+		829386441C80E36200BF3ADD /* RoundScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829386431C80E36200BF3ADD /* RoundScoreViewController.swift */; };
+		829386461C87D51D00BF3ADD /* CardCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829386451C87D51D00BF3ADD /* CardCountViewController.swift */; };
+		82B578CC1C95ED470066BBD4 /* HFRoundScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B578CB1C95ED470066BBD4 /* HFRoundScoreViewController.swift */; };
+		82B578CE1C96622D0066BBD4 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B578CD1C96622D0066BBD4 /* ADVSegmentedControl.swift */; };
+		82B578D01C974F5D0066BBD4 /* SharedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B578CF1C974F5D0066BBD4 /* SharedFunctions.swift */; };
+		82B578D21C9762CD0066BBD4 /* ChangePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B578D11C9762CD0066BBD4 /* ChangePlayersViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,9 +57,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		821245D71C9119CB002A4230 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		8267A8A21C77B55800F8AAD0 /* NewGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameViewController.swift; sourceTree = "<group>"; };
+		8267A8A41C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamPlayerCollectionViewController.swift; sourceTree = "<group>"; };
+		8267A8A61C77CF0400F8AAD0 /* PlayerCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCollectionCell.swift; sourceTree = "<group>"; };
 		826D819F1C76A2D30067FBCA /* HandFootScoring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandFootScoring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		826D81A21C76A2D30067FBCA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		826D81A41C76A2D30067FBCA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		826D81A41C76A2D30067FBCA /* GameTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewController.swift; sourceTree = "<group>"; };
 		826D81A71C76A2D30067FBCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		826D81AA1C76A2D30067FBCA /* HandFootScoring.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HandFootScoring.xcdatamodel; sourceTree = "<group>"; };
 		826D81AC1C76A2D30067FBCA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +75,24 @@
 		826D81C11C76A2D30067FBCA /* HandFootScoringUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HandFootScoringUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		826D81C51C76A2D30067FBCA /* HandFootScoringUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandFootScoringUITests.swift; sourceTree = "<group>"; };
 		826D81C71C76A2D30067FBCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		826D81D31C76A6D40067FBCA /* GameSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSummaryViewController.swift; sourceTree = "<group>"; };
+		826D81D71C76AC080067FBCA /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		826D81D91C76AE290067FBCA /* RoundScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundScore.swift; sourceTree = "<group>"; };
+		826D81DB1C76B63D0067FBCA /* ScoreElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreElement.swift; sourceTree = "<group>"; };
+		826D81DD1C76B87E0067FBCA /* ProfileScoreElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileScoreElement.swift; sourceTree = "<group>"; };
+		826D81DF1C76B8F00067FBCA /* ProfileGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileGame.swift; sourceTree = "<group>"; };
+		826D81E11C76BC760067FBCA /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		826D81E31C76C67C0067FBCA /* LoadProfiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadProfiles.swift; sourceTree = "<group>"; };
+		826D81E51C76C8FC0067FBCA /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		828EE7A91C8A08E8003D81AF /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
+		828EE7AB1C8A0EAE003D81AF /* TextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldDelegate.swift; sourceTree = "<group>"; };
+		829386411C7E7D4000BF3ADD /* GameTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableCell.swift; sourceTree = "<group>"; };
+		829386431C80E36200BF3ADD /* RoundScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundScoreViewController.swift; sourceTree = "<group>"; };
+		829386451C87D51D00BF3ADD /* CardCountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCountViewController.swift; sourceTree = "<group>"; };
+		82B578CB1C95ED470066BBD4 /* HFRoundScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HFRoundScoreViewController.swift; sourceTree = "<group>"; };
+		82B578CD1C96622D0066BBD4 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
+		82B578CF1C974F5D0066BBD4 /* SharedFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedFunctions.swift; sourceTree = "<group>"; };
+		82B578D11C9762CD0066BBD4 /* ChangePlayersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePlayersViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +143,14 @@
 		826D81A11C76A2D30067FBCA /* HandFootScoring */ = {
 			isa = PBXGroup;
 			children = (
+				826D81A91C76A2D30067FBCA /* HandFootScoring.xcdatamodeld */,
+				826D81D61C76ABEB0067FBCA /* Model */,
+				826D81D51C76A6DD0067FBCA /* View Controllers */,
 				826D81A21C76A2D30067FBCA /* AppDelegate.swift */,
-				826D81A41C76A2D30067FBCA /* ViewController.swift */,
 				826D81A61C76A2D30067FBCA /* Main.storyboard */,
 				826D81AC1C76A2D30067FBCA /* Assets.xcassets */,
 				826D81AE1C76A2D30067FBCA /* LaunchScreen.storyboard */,
 				826D81B11C76A2D30067FBCA /* Info.plist */,
-				826D81A91C76A2D30067FBCA /* HandFootScoring.xcdatamodeld */,
 			);
 			path = HandFootScoring;
 			sourceTree = "<group>";
@@ -126,6 +171,43 @@
 				826D81C71C76A2D30067FBCA /* Info.plist */,
 			);
 			path = HandFootScoringUITests;
+			sourceTree = "<group>";
+		};
+		826D81D51C76A6DD0067FBCA /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				826D81A41C76A2D30067FBCA /* GameTableViewController.swift */,
+				826D81D31C76A6D40067FBCA /* GameSummaryViewController.swift */,
+				8267A8A21C77B55800F8AAD0 /* NewGameViewController.swift */,
+				8267A8A41C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift */,
+				8267A8A61C77CF0400F8AAD0 /* PlayerCollectionCell.swift */,
+				829386411C7E7D4000BF3ADD /* GameTableCell.swift */,
+				829386431C80E36200BF3ADD /* RoundScoreViewController.swift */,
+				829386451C87D51D00BF3ADD /* CardCountViewController.swift */,
+				828EE7A91C8A08E8003D81AF /* PlayerProfileViewController.swift */,
+				828EE7AB1C8A0EAE003D81AF /* TextFieldDelegate.swift */,
+				82B578CB1C95ED470066BBD4 /* HFRoundScoreViewController.swift */,
+				82B578CD1C96622D0066BBD4 /* ADVSegmentedControl.swift */,
+				82B578CF1C974F5D0066BBD4 /* SharedFunctions.swift */,
+				82B578D11C9762CD0066BBD4 /* ChangePlayersViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		826D81D61C76ABEB0067FBCA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				826D81D71C76AC080067FBCA /* Game.swift */,
+				826D81D91C76AE290067FBCA /* RoundScore.swift */,
+				826D81DB1C76B63D0067FBCA /* ScoreElement.swift */,
+				826D81DD1C76B87E0067FBCA /* ProfileScoreElement.swift */,
+				826D81DF1C76B8F00067FBCA /* ProfileGame.swift */,
+				826D81E11C76BC760067FBCA /* Player.swift */,
+				826D81E31C76C67C0067FBCA /* LoadProfiles.swift */,
+				826D81E51C76C8FC0067FBCA /* CoreDataStackManager.swift */,
+				821245D71C9119CB002A4230 /* Style.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,9 +341,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				826D81A51C76A2D30067FBCA /* ViewController.swift in Sources */,
+				829386421C7E7D4000BF3ADD /* GameTableCell.swift in Sources */,
+				826D81A51C76A2D30067FBCA /* GameTableViewController.swift in Sources */,
+				826D81D81C76AC080067FBCA /* Game.swift in Sources */,
+				826D81D41C76A6D40067FBCA /* GameSummaryViewController.swift in Sources */,
+				826D81DE1C76B87E0067FBCA /* ProfileScoreElement.swift in Sources */,
+				826D81DA1C76AE290067FBCA /* RoundScore.swift in Sources */,
+				8267A8A51C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift in Sources */,
+				828EE7AA1C8A08E9003D81AF /* PlayerProfileViewController.swift in Sources */,
+				82B578D01C974F5D0066BBD4 /* SharedFunctions.swift in Sources */,
+				826D81E61C76C8FC0067FBCA /* CoreDataStackManager.swift in Sources */,
+				829386461C87D51D00BF3ADD /* CardCountViewController.swift in Sources */,
+				82B578CE1C96622D0066BBD4 /* ADVSegmentedControl.swift in Sources */,
 				826D81AB1C76A2D30067FBCA /* HandFootScoring.xcdatamodeld in Sources */,
+				826D81E21C76BC760067FBCA /* Player.swift in Sources */,
+				826D81E01C76B8F00067FBCA /* ProfileGame.swift in Sources */,
+				82B578D21C9762CD0066BBD4 /* ChangePlayersViewController.swift in Sources */,
+				826D81DC1C76B63D0067FBCA /* ScoreElement.swift in Sources */,
+				82B578CC1C95ED470066BBD4 /* HFRoundScoreViewController.swift in Sources */,
 				826D81A31C76A2D30067FBCA /* AppDelegate.swift in Sources */,
+				826D81E41C76C67C0067FBCA /* LoadProfiles.swift in Sources */,
+				829386441C80E36200BF3ADD /* RoundScoreViewController.swift in Sources */,
+				8267A8A71C77CF0400F8AAD0 /* PlayerCollectionCell.swift in Sources */,
+				828EE7AC1C8A0EAE003D81AF /* TextFieldDelegate.swift in Sources */,
+				821245D81C9119CB002A4230 /* Style.swift in Sources */,
+				8267A8A31C77B55800F8AAD0 /* NewGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +590,7 @@
 				826D81CC1C76A2D30067FBCA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		826D81CD1C76A2D30067FBCA /* Build configuration list for PBXNativeTarget "HandFootScoringTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +599,7 @@
 				826D81CF1C76A2D30067FBCA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		826D81D01C76A2D30067FBCA /* Build configuration list for PBXNativeTarget "HandFootScoringUITests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +608,7 @@
 				826D81D21C76A2D30067FBCA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
