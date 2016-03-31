@@ -36,21 +36,23 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
 
 
 
+    // Shared Functions ShortCode
+    let sf = SharedFunctions.sharedInstance()
+
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Set the title
+        // Set the title and other team initials
         navigationBar.topItem!.title = selectedViewTitle
 
-        // Set other team initials
-        if let label = view.viewWithTag(122) as? UILabel {
-            setLabel(label, imageTextString: otherTeamInitials, backgroundColor: UIColor.whiteColor())
-        }
+        // Set other teams initials
+        sf.setLabel(view.viewWithTag(122) as? UILabel, imageTextString: otherTeamInitials, backgroundColor: UIColor.whiteColor())
+        sf.setLabel(view.viewWithTag(123) as? UILabel, imageTextString: Other3rdTeamInitials, backgroundColor: UIColor.whiteColor())
 
 
-        // Fetch any existing Started Games --
+        // Fetch the score elements
         do {
             try fetchedResultsController.performFetch()
         } catch {}
@@ -58,15 +60,23 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
         // Set the fetchedResultsController.delegate = self
         fetchedResultsController.delegate = self
 
-        // Load any previously entered scores
-        loadScoreValues(selectedTeamNumber!, option: "Selected")
 
+        // Load any previously entered scores
+        loadScoreValues(selectedTeamNumber!, option: "Selected", adjustControl: 0)
+
+        // Load the other teams scores
         if selectedTeamNumber == 1 {
             // Load other team scores
-            loadScoreValues(2, option: "Other")
+            loadScoreValues(2, option: "Other", adjustControl: 1)
+            loadScoreValues(3, option: "Other", adjustControl: 2)
+        } else  if selectedTeamNumber == 2 {
+            // Load other team scores
+            loadScoreValues(1, option: "Other", adjustControl: 1)
+            loadScoreValues(3, option: "Other", adjustControl: 2)
         } else {
             // Load other team scores
-            loadScoreValues(1, option: "Other")
+            loadScoreValues(1, option: "Other", adjustControl: 1)
+            loadScoreValues(2, option: "Other", adjustControl: 2)
         }
 
 
@@ -115,16 +125,14 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
 
 
     // Load any previously entered scores
-    func loadScoreValues( team: Int, option: String) {
+    func loadScoreValues(team: Int, option: String, adjustControl: Int) {
 
         // If loading the other teams then we need to save off the calculatedRoundScore whick should reflect 
         // the selected team's score so it can be adjusted with the other controls
         var calculatedRoundScoreSave =  0
 
         // If we are loading mutliple team columns, then we need to adjust the controls by 1 for otehr team 1
-        var controlAdjustment = 0
         if option == "Other" {
-            controlAdjustment = 1
             calculatedRoundScoreSave = calculatedRoundScore
         }
 
@@ -140,8 +148,9 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
 
                 // Set win options (element Number 0). If the team was marked as the winner turn on the checkMark
                 if Int(fetchedScoreElement.elementNumber) == 0 {
+
                     if Int(fetchedScoreElement.earnedNumber) > 0 {
-                        print("flaggedAsWinner")
+
                         if option != "Other" {
                             winCheckMark.image = UIImage(named: "checkMark")
                             winToggle = true
@@ -149,7 +158,6 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
                             otherTeamWithWinnerSet = true
                         }
                     } else {
-                        print("NotWinner")
                         if option != "Other" {
                             winCheckMark.image = UIImage(named: "notWinner")
                             winToggle = false
@@ -163,35 +171,29 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
 
                 if option != "Other" {
                     // Update the label for the earnedNumber
-                    if let label = view.viewWithTag(tagID!) as? UILabel {
-                        setLabel(label, imageTextString: formatScore(Int(fetchedScoreElement.earnedNumber)), backgroundColor: UIColor.whiteColor())
-                    }
+                    sf.setLabel(view.viewWithTag(tagID!) as? UILabel, imageTextString: sf.formatScore(Int(fetchedScoreElement.earnedNumber)), backgroundColor: UIColor.whiteColor())
                 }
 
-                // Updae the label for control 3 which is the calculated score
-                let control345 = 3 + controlAdjustment
+                // Update the label for control 3, 4 or 5 which is the calculated score
+                tagString = elementNumber + String( 3 + adjustControl)
 
-                tagString = elementNumber + String(control345)
-                let tagID3 = Int(tagString)
-
-                if let label = view.viewWithTag(tagID3!) as? UILabel {
-                    if option == "Other" {
-                        setLabel(label, imageTextString: formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: Style.sharedInstance().teamRoundDisabled() )
-                    } else {
-                        setLabel(label, imageTextString: formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: UIColor.whiteColor())
-                    }
-
-                    // Add score to the total score for the round
-                    calculatedRoundScore += Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)
+                if option == "Other" {
+                    sf.setLabel(view.viewWithTag( Int(tagString)!) as? UILabel, imageTextString: sf.formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: Style.sharedInstance().teamRoundDisabled() )
+                } else {
+                    sf.setLabel(view.viewWithTag( Int(tagString)!) as? UILabel, imageTextString: sf.formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: UIColor.whiteColor())
                 }
+
+                // Add score to the total score for the round
+                calculatedRoundScore += Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)
+
             }
         }
 
 
         // Once we have looped through all the controlls, format the total
-        if let label = view.viewWithTag(993 + controlAdjustment) as? UILabel {
-            setLabel(label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-         }
+
+        sf.setLabel(view.viewWithTag(993 + adjustControl) as? UILabel, imageTextString: sf.formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
+
 
         // Restore the calculated Round score which should match the selected round score so the balance 
         // will reflect correctly when anything changes 
@@ -203,12 +205,6 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
 
 
     // ***** BUTTON MANAGEMENT  **** //
-
-    // Cancel was Chosen
-    @IBAction func returnToSummary(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-
 
     // Finished was chosen
     @IBAction func roundTeamComplete(sender: AnyObject) {
@@ -250,8 +246,6 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
     // that are considered requirements to win. 
     @IBAction func winButtonAction(sender: AnyObject) {
 
-        print("Gothere to winbutton: \(winToggle)")
-
         var minusPlus = " "
         if winToggle == false {
 
@@ -266,17 +260,16 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
             minusPlus = "-"
         }
 
-
+        // Look through all the score elements. When there is a winNumber that means that earned amount 
+        // is set when there is a win (kind of like a default).  Each individual score element that has 
+        // this option must be adjusted
         for matchingScoreElement in fetchedResultsController.fetchedObjects as! [ScoreElement] {
 
             // Match on the round and team
             if matchingScoreElement.roundNumber == selectedRoundNumber && matchingScoreElement.teamNumber == selectedTeamNumber  {
 
-
-           //     if Int(matchingScoreElement.elementNumber) >= 0 && Int(matchingScoreElement.elementNumber) <= 5 {
-
-                print("matchingScoreElement.winNumber: \(matchingScoreElement.winNumber)")
-                if   Int(matchingScoreElement.winNumber ) > 0 {
+                // Check Win Number if found, need to adjust
+                if Int(matchingScoreElement.winNumber ) > 0 {
 
                     var earnedNumberAdjusted = Int(matchingScoreElement.earnedNumber)
 
@@ -305,8 +298,7 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
         CoreDataStackManager.sharedInstance().saveContext()
 
         // Load the scores again
-        loadScoreValues(selectedTeamNumber!, option: "Selected")
-
+        loadScoreValues(selectedTeamNumber!, option: "Selected", adjustControl: 0)
     }
 
 
@@ -318,19 +310,14 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
         var originalBonusRed3s = 0
         var bonusRed3s = 0
 
-        let tagIDString: String? = String(sender.tag)
-
-
         // find the score element and control from the button selected
-        if let tagID = tagIDString {
+        if let tagID =  sender.tag {
 
             // first digit of tagID is the score element
-            let index1 = tagID.startIndex.advancedBy(0)
-            let scoreElementNumber = Int(String(tagID[index1]))
-
             // Second digit of the tagID is the control (1 or 2) that represents + or -
-            let index2 = tagID.startIndex.advancedBy(1)
-            let control  = tagID.substringFromIndex(index2)
+            let tagIDDictionary = sf.separateTagId(tagID, option: "ElementControl")
+            let scoreElementNumber = Int(tagIDDictionary["scoreElement"]!)
+            let control = tagIDDictionary["control"]
 
             // A control number of 1 indicates we are subtracting from the score.
             // A control number of 2 indicates we are adding to the score.
@@ -342,15 +329,16 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
                 minusPlus = "+"
             }
 
-            var scoreElementIndex = 0
+
+
             // Loop through the score elements for the game
+            var scoreElementIndex = 0
             for matchingScoreElement in fetchedResultsController.fetchedObjects as! [ScoreElement] {
 
                 // Match on the element number, round number and team number to get the matching score element for the +- button
-                if matchingScoreElement.elementNumber  ==  scoreElementNumber && matchingScoreElement.roundNumber == selectedRoundNumber && matchingScoreElement.teamNumber == selectedTeamNumber {
+                if Int(matchingScoreElement.elementNumber)  ==  scoreElementNumber && Int(matchingScoreElement.roundNumber) == selectedRoundNumber && Int(matchingScoreElement.teamNumber) == selectedTeamNumber {
 
-                    // Matchwas found
-
+                    // Match was found
                     var earnedNumberAdjusted = Int(matchingScoreElement.earnedNumber)
 
                     // If counting Red threes (control 8), set indicator for bonus so the bonus can be adjusted later
@@ -383,47 +371,23 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
                         if tagID > 0 {
 
                             // Update the label for the earnedNumber
-                            if let label = view.viewWithTag(tagID!) as? UILabel {
-                                setLabel (label, imageTextString: formatScore(earnedNumberAdjusted), backgroundColor: UIColor.whiteColor())
-                            }
+                            sf.setLabel (view.viewWithTag(tagID!) as? UILabel, imageTextString: sf.formatScore(earnedNumberAdjusted), backgroundColor: UIColor.whiteColor())
                         }
 
                         // Update the label for the calculated score. Earned by Points
                         tagString = String(scoreElementNumber!) + "3"
                         let tagID3 = Int(tagString)
 
-                        // Update the label for the calculated score
-                        if let label = view.viewWithTag(tagID3!) as? UILabel {
-                            setLabel (label, imageTextString: formatScore(Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)), backgroundColor: UIColor.whiteColor())
-                        }
-
-
-                        // Update the calculated round score.
-                        // Must subtract the original score and add the new score
-                        // Update the label for the calculated score
-                        if let label = view.viewWithTag(993) as? UILabel {
-
-                            let originalScore = Int(matchingScoreElement.earnedNumber) * Int(matchingScoreElement.pointValue)
-                            let newScore = Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)
-
-                            // Add to the round score
-                            calculatedRoundScore -= originalScore
-                            calculatedRoundScore += newScore
-
-                            // Set the label for the round total
-                            setLabel (label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-                        }
-
-                        // Adjust the earned amount and the Round Total
-                        matchingScoreElement.adjustEarnedNumber(earnedNumberAdjusted)
-
-                        CoreDataStackManager.sharedInstance().saveContext()
+                         // Update the calculated round score and update score element
+                        adjustRoundTotalUpdateScoreElement(matchingScoreElement, earnedNumberAdjusted: earnedNumberAdjusted, tagID: tagID3!)
                     }
                     
                     break
                 }
                 ++scoreElementIndex
             }
+
+
 
             // Check for a bonus in Reds. Over 7 there is a bonus. if less than 7 there is not a bonus
             if (originalBonusRed3s < 7 && bonusRed3s >= 7 ) || (originalBonusRed3s >= 7 && bonusRed3s < 7 ) {
@@ -442,28 +406,8 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
                             --earnedNumberAdjusted
                         }
 
-                        // Calculate the new score
-                        let originalScore = Int(matchingScoreElement.earnedNumber) * Int(matchingScoreElement.pointValue)
-                        let newScore = Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)
-
-                        // Add to the round score
-                        calculatedRoundScore -= originalScore
-                        calculatedRoundScore += newScore
-
-                        // Update the label for the bonus red 3's score amount
-                        if let label = view.viewWithTag(93) as? UILabel {
-                            setLabel (label, imageTextString: formatScore(newScore), backgroundColor: UIColor.whiteColor())
-                         }
-
-                        // Update the round total
-                        if let label = view.viewWithTag(993) as? UILabel {
-                            setLabel (label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-                        }
-
-                        // Adjust the earned amount and the Round Total
-                        matchingScoreElement.adjustEarnedNumber(earnedNumberAdjusted)
-                        CoreDataStackManager.sharedInstance().saveContext()
-
+                        // Add to round and update score element
+                        adjustRoundTotalUpdateScoreElement(matchingScoreElement, earnedNumberAdjusted: earnedNumberAdjusted, tagID: 93)
                         break
                     }
                 }
@@ -472,25 +416,41 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
     }
 
 
-    
+    // Adds to the round score, sets the control and update the score element
+    func adjustRoundTotalUpdateScoreElement(scoreElement: ScoreElement, earnedNumberAdjusted: Int, tagID: Int) {
+
+        // Calculate the new score
+        let originalScore = Int(scoreElement.earnedNumber) * Int(scoreElement.pointValue)
+        let newScore = earnedNumberAdjusted * Int(scoreElement.pointValue)
+
+        // Add to the round score
+        calculatedRoundScore -= originalScore
+        calculatedRoundScore += newScore
+
+        // Update the label for the bonus red 3's score amount
+        sf.setLabel (view.viewWithTag(tagID) as? UILabel, imageTextString: sf.formatScore(newScore), backgroundColor: UIColor.whiteColor())
+
+
+        // Update the round total
+        sf.setLabel (view.viewWithTag(993) as? UILabel, imageTextString: sf.formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
+
+        // Adjust the earned amount and the Round Total
+        scoreElement.adjustEarnedNumber(earnedNumberAdjusted)
+        CoreDataStackManager.sharedInstance().saveContext()
+    }
+
+
    // ***** DELEGATE MANAGEMENT  (FROM CardCountViewController) **** //
 
     // Called when the card count or subtract count is updated
     // Update card counts, both card counts and/or subtract count
     func updateCardCounts(controller: CardCountViewController, cardCount: Int, subtractCount: Int) {
 
-        print("got back to updateCardCounts: \(cardCount), \(subtractCount)")
 
         for matchingScoreElement in self.fetchedResultsController.fetchedObjects as! [ScoreElement] {
 
-            print("matchingScoreElement.elementNumber: \(matchingScoreElement.elementNumber)")
-            print("matchingScoreElement.roundNumber: \(matchingScoreElement.roundNumber)")
-            print("matchingScoreElement.teamNumber: \(matchingScoreElement.teamNumber)")
-
             // Find the element for the card cound and the subtract 
             if (matchingScoreElement.elementNumber  ==  10 || matchingScoreElement.elementNumber == 11) && matchingScoreElement.roundNumber == self.selectedRoundNumber && matchingScoreElement.teamNumber == self.selectedTeamNumber {
-
-                print("a match was found")
 
                 var earnedNumberAdjusted = 0
                 if matchingScoreElement.elementNumber  ==  10 {
@@ -502,59 +462,14 @@ class RoundScoreViewController: UIViewController, NSFetchedResultsControllerDele
                 let tag = String(Int(matchingScoreElement.elementNumber)) + "3"
                 let tagID = Int(tag)
  
-                // Update the label for the card count
-                if let label = view.viewWithTag(tagID!) as? UILabel {
 
-                    // Calculate the scores
-                    let originalScore = Int(matchingScoreElement.earnedNumber) * Int(matchingScoreElement.pointValue)
-                    let newScore = Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)
-
-                    // Add to the round score
-                    calculatedRoundScore -= originalScore
-                    calculatedRoundScore += newScore
-
-                    setLabel (label, imageTextString: formatScore(newScore), backgroundColor: UIColor.whiteColor())
-                }
-
-                // Update the totals
-                if let label = view.viewWithTag(993) as? UILabel {
-
-                    setLabel (label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-                }
-
-                // Adjust the earned amount and the Round Total
-                matchingScoreElement.adjustEarnedNumber(earnedNumberAdjusted)
-
-                CoreDataStackManager.sharedInstance().saveContext()
+                 // Adds to the round score, sets the control and update the score element
+                adjustRoundTotalUpdateScoreElement(matchingScoreElement, earnedNumberAdjusted: earnedNumberAdjusted, tagID: tagID!)
             }
+
         }
     }
-
-   // ***** LABEL MANAGEMENT **** //
-
-    // Set the label text and background color
-    func setLabel (label: UILabel!, imageTextString: String!, backgroundColor: UIColor) {
-
-        dispatch_async(dispatch_get_main_queue(), {
-            label.hidden = true
-
-            label.text = imageTextString
-            label.backgroundColor = backgroundColor
-
-
-            label.hidden = false
-        })
-        
-    }
-
-    // Add the comma to the score and totals
-    func formatScore(score: Int!) -> String {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .DecimalStyle
-        return formatter.stringFromNumber(score)!
-    }
-
-    
+     
 
     // ***** CORE DATA  MANAGEMENT  **** //
 

@@ -111,18 +111,9 @@ class Game: NSManagedObject {
         gameId = NSUUID().UUIDString
 
         // Save off
-        print("savingID: \(gameId)")
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(gameId, forKey: "lastStartedGameId")
 
-/****
-     let newDateComponents = NSDateComponents()
-         newDateComponents.day = -32
-        let calculateDate = NSCalendar.currentCalendar().dateByAddingComponents(newDateComponents, toDate: NSDate(), options:NSCalendarOptions.init(rawValue: 0))
-
-       print("calculateDate: \(calculateDate)")
-     date = calculateDate!
-        sectionDate = buildSectionDate(calculateDate!) ***/
 
         date = NSDate()
         sectionDate = buildSectionDate(date)
@@ -170,8 +161,6 @@ class Game: NSManagedObject {
 
 
         // Load the 4 rounds for each time, also loading the score elements (aka rules)
-
-      //  print("numberOfTeams: \(numberOfTeams)")
         for teamNumber in 0...(numberOfTeams - 1) {
         
             for roundNumber in 0...3 {
@@ -185,8 +174,6 @@ class Game: NSManagedObject {
                 
                 ]
                 let newRound = RoundScore(dictionary: dictionary, context: self.sharedContext, relatedGame: self)
-
-                print("newRound.game: \(newRound.game)")
 
                 for scoreElement in profileScoreElementArray{
 
@@ -241,7 +228,6 @@ class Game: NSManagedObject {
 
     // When a photo is deleted from core data delete the corresponding document
     override func prepareForDeletion() {
-        print("game: \(gameId) was deleted")
     }
 
      // Shared Context Helper

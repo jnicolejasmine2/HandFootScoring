@@ -341,7 +341,6 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
 
             // Load 6 guests
             for dictionary in self.playersArray {
-              //  print("dictionary: \(dictionary)")
                 let _ = Player(dictionary: dictionary, context: self.sharedContext)
             }
 

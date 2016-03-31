@@ -55,7 +55,6 @@ class ProfileGame: NSManagedObject {
                // Prepare for Core Data Insert
         let entity =  NSEntityDescription.entityForName("ProfileGame", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
-        print("Begin Init Game")
 
         // Initialize the data elements for the Pin
         gameProfileId = dictionary[Keys.gameProfileId] as! String
@@ -71,7 +70,5 @@ class ProfileGame: NSManagedObject {
         meld3Threshold = dictionary[Keys.meld3Threshold] as! NSNumber
         meld4Threshold = dictionary[Keys.meld4Threshold] as! NSNumber
         profileScoreElementId = dictionary[Keys.profileScoreElementId] as! String
-
-           print("End Init Game")
     }
 }

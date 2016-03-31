@@ -44,14 +44,11 @@ class RoundScore: NSManagedObject {
         teamNumber = dictionary[Keys.teamNumber] as! NSNumber
         roundTotal = 0
         game = relatedGame
-
-        print("game set in round: \(game)")
     }
 
 
     // When a photo is deleted from core data delete the corresponding document
     override func prepareForDeletion() {
-        print("round: \(roundNumber), \(teamNumber) was deleted")
     }
 
 

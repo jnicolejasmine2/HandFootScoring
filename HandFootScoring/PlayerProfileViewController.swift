@@ -18,7 +18,6 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
     @IBOutlet weak var playerEmail: UITextField!
     @IBOutlet weak var playerPhone: UITextField!
     private let textDelegate = TextFieldDelegate()
-
     var allTextFields: [UITextField]!
 
       // Image Controls along with variable to support selecting an image
@@ -49,7 +48,7 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+ 
         // Set up to dismiss the keyboards when tapped outside
         allTextFields = [playerName, playerInitials, playerEmail, playerPhone]
 
@@ -226,7 +225,7 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
         }
     }
 
-    // Delete the Player 
+    // Delete the Player  --- TO BE DEVELOPED
     @IBAction func deletePlayer(sender: AnyObject) {
     }
 
@@ -300,8 +299,6 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
     // ***** ALERT MANAGEMENT  **** //
 
     func presentAlert(alertMessage: String, includeOK: Bool ) {
-
-        print("got to alert")
 
         let alert = UIAlertController(title: "Alert", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
 

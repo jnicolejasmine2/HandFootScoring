@@ -57,7 +57,5 @@ class ProfileScoreElement: NSManagedObject {
         defaultNumber = dictionary[Keys.defaultNumber] as! NSNumber
         requiredNumber = dictionary[Keys.requiredNumber] as! NSNumber
         winNumber = dictionary[Keys.winNumber] as! NSNumber
-
-        print("winNumber: \(winNumber)")
     }
 }

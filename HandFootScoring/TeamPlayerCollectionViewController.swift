@@ -23,20 +23,19 @@ class  TeamPlayerCollectionViewController: UIViewController, UINavigationControl
 
     var selectedPlayer: Player?
     var teamPlayerID: Int?
-
     var fetchedPlayerArray: [Player] = []
 
 
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var newPlayerPlusSignButton: UIBarButtonItem!
-    
+
+
+
+
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-
-        print("Got to TeamPlayerCollectionViewController- teamPlayerID: \(teamPlayerID)")
 
         // Fetch any existing Existing Games -- Only needed at this point for debugging move to the new game vc at that time
         do {
@@ -48,8 +47,6 @@ class  TeamPlayerCollectionViewController: UIViewController, UINavigationControl
         // Set the fetchedresultscontroller for the pin
         fetchedResultsController.delegate = self
 
-        let sectionInfo = fetchedResultsController.sections![0]
-        print("Number of Returned objects: \(sectionInfo.numberOfObjects)")
 
         // Set the fetchedResultsController.delegate = self
         fetchedResultsController.delegate = self
@@ -152,7 +149,6 @@ class  TeamPlayerCollectionViewController: UIViewController, UINavigationControl
     // When a meme is selected, push the MemedView controller.  Pass the Meme (used to present details) and the indexPath.Row (used for delete)
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        print("selectedfromCollectionView: \(indexPath.item)")
 
         // Get the photo that is being formatted
         let selectedPlayer = fetchedResultsController.objectAtIndexPath(indexPath) as! Player

@@ -81,7 +81,7 @@ class Style {
 
 
     func tableDisabled() -> UIColor {
-        let color = colorWithHexString(grey).colorWithAlphaComponent(0.15)
+        let color = colorWithHexString(grey).colorWithAlphaComponent(0.25)
 
         return color
     }
@@ -128,6 +128,7 @@ class Style {
     }
 
 
+    
 
     class func sharedInstance() -> Style {
         struct Singleton {

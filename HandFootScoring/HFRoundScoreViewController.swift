@@ -35,6 +35,9 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
     @IBOutlet weak var winButton: UIButton!
 
 
+    // Shared Functions ShortCode
+    let sf = SharedFunctions.sharedInstance()
+
 
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
 
@@ -45,13 +48,10 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
         navigationBar.topItem!.title = selectedViewTitle
 
         // Set other team initials
-        if let label = view.viewWithTag(122) as? UILabel {
-            setLabel(label, imageTextString: otherTeamInitials, backgroundColor: UIColor.whiteColor())
-        }
+        sf.setLabel(view.viewWithTag(122) as? UILabel, imageTextString: otherTeamInitials, backgroundColor: UIColor.whiteColor())
+
         // Set other team initials
-        if let label = view.viewWithTag(123) as? UILabel {
-            setLabel(label, imageTextString: Other3rdTeamInitials, backgroundColor: UIColor.whiteColor())
-        }
+        sf.setLabel(view.viewWithTag(123) as? UILabel, imageTextString: Other3rdTeamInitials, backgroundColor: UIColor.whiteColor())
 
 
         // Fetch any existing Started Games --
@@ -160,7 +160,6 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
                 // Set win options (element Number 0). If the team was marked as the winner turn on the checkMark
                 if Int(fetchedScoreElement.elementNumber) == 0 {
                     if Int(fetchedScoreElement.earnedNumber) > 0 {
-                        print("flaggedAsWinner")
                         if option != "Other" && option != "Other3"  {
                             winCheckMark.image = UIImage(named: "checkMark")
                             winToggle = true
@@ -168,7 +167,6 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
                             otherTeamWithWinnerSet = true
                         }
                     } else {
-                        print("NotWinner")
                         if option != "Other"  && option != "Other3"  {
                             winCheckMark.image = UIImage(named: "notWinner")
                             winToggle = false
@@ -182,9 +180,7 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
 
                 if option != "Other"  && option != "Other3"  {
                     // Update the label for the earnedNumber
-                    if let label = view.viewWithTag(tagID!) as? UILabel {
-                        setLabel(label, imageTextString: formatScore(Int(fetchedScoreElement.earnedNumber)), backgroundColor: UIColor.whiteColor())
-                    }
+                    sf.setLabel(view.viewWithTag(tagID!) as? UILabel, imageTextString: sf.formatScore(Int(fetchedScoreElement.earnedNumber)), backgroundColor: UIColor.whiteColor())
                 }
 
                 // Updae the label for control 3 which is the calculated score
@@ -193,24 +189,22 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
                 tagString = elementNumber + String(control345)
                 let tagID3 = Int(tagString)
 
-                if let label = view.viewWithTag(tagID3!) as? UILabel {
-                    if option == "Other" || option == "Other3"  {
-                        setLabel(label, imageTextString: formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: Style.sharedInstance().teamRoundDisabled() )
-                    } else {
-                        setLabel(label, imageTextString: formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: UIColor.whiteColor())
-                    }
-
-                    // Add score to the total score for the round
-                    calculatedRoundScore += Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)
+                if option == "Other" || option == "Other3"  {
+                    sf.setLabel(view.viewWithTag(tagID3!) as? UILabel, imageTextString: sf.formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: Style.sharedInstance().teamRoundDisabled() )
+                } else {
+                    sf.setLabel(view.viewWithTag(tagID3!) as? UILabel, imageTextString: sf.formatScore(Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)), backgroundColor: UIColor.whiteColor())
                 }
+
+                // Add score to the total score for the round
+                calculatedRoundScore += Int(fetchedScoreElement.earnedNumber) * Int(fetchedScoreElement.pointValue)
+
             }
         }
 
 
         // Once we have looped through all the controlls, format the total
-        if let label = view.viewWithTag(993 + controlAdjustment) as? UILabel {
-            setLabel(label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-        }
+        sf.setLabel(view.viewWithTag(993 + controlAdjustment) as? UILabel, imageTextString: sf.formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
+
 
         // Restore the calculated Round score which should match the selected round score so the balance
         // will reflect correctly when anything changes
@@ -268,8 +262,6 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
     // When on, we add the winNumber to any of the score elements
     // that are considered requirements to win.
     @IBAction func winButtonAction(sender: AnyObject) {
-
-        print("Gothere to winbutton: \(winToggle)")
 
         var minusPlus = " "
         if winToggle == false {
@@ -402,9 +394,7 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
                         if tagID > 0 {
 
                             // Update the label for the earnedNumber
-                            if let label = view.viewWithTag(tagID!) as? UILabel {
-                                setLabel (label, imageTextString: formatScore(earnedNumberAdjusted), backgroundColor: UIColor.whiteColor())
-                            }
+                            sf.setLabel (view.viewWithTag(tagID!) as? UILabel, imageTextString: sf.formatScore(earnedNumberAdjusted), backgroundColor: UIColor.whiteColor())
                         }
 
                         // Update the label for the calculated score. Earned by Points
@@ -412,26 +402,22 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
                         let tagID3 = Int(tagString)
 
                         // Update the label for the calculated score
-                        if let label = view.viewWithTag(tagID3!) as? UILabel {
-                            setLabel (label, imageTextString: formatScore(Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)), backgroundColor: UIColor.whiteColor())
-                        }
+                        sf.setLabel (view.viewWithTag(tagID3!) as? UILabel, imageTextString: sf.formatScore(Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)), backgroundColor: UIColor.whiteColor())
 
 
                         // Update the calculated round score.
                         // Must subtract the original score and add the new score
                         // Update the label for the calculated score
-                        if let label = view.viewWithTag(993) as? UILabel {
 
-                            let originalScore = Int(matchingScoreElement.earnedNumber) * Int(matchingScoreElement.pointValue)
-                            let newScore = Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)
+                        let originalScore = Int(matchingScoreElement.earnedNumber) * Int(matchingScoreElement.pointValue)
+                        let newScore = Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)
 
-                            // Add to the round score
-                            calculatedRoundScore -= originalScore
-                            calculatedRoundScore += newScore
+                        // Add to the round score
+                        calculatedRoundScore -= originalScore
+                        calculatedRoundScore += newScore
 
-                            // Set the label for the round total
-                            setLabel (label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-                        }
+                        // Set the label for the round total
+                        sf.setLabel (view.viewWithTag(993) as? UILabel, imageTextString: sf.formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
 
                         // Adjust the earned amount and the Round Total
                         matchingScoreElement.adjustEarnedNumber(earnedNumberAdjusted)
@@ -470,14 +456,12 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
                         calculatedRoundScore += newScore
 
                         // Update the label for the bonus red 3's score amount
-                        if let label = view.viewWithTag(93) as? UILabel {
-                            setLabel (label, imageTextString: formatScore(newScore), backgroundColor: UIColor.whiteColor())
-                        }
+                        sf.setLabel (view.viewWithTag(93) as? UILabel, imageTextString: sf.formatScore(newScore), backgroundColor: UIColor.whiteColor())
+
 
                         // Update the round total
-                        if let label = view.viewWithTag(993) as? UILabel {
-                            setLabel (label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-                        }
+                        sf.setLabel (view.viewWithTag(993) as? UILabel, imageTextString: sf.formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
+
 
                         // Adjust the earned amount and the Round Total
                         matchingScoreElement.adjustEarnedNumber(earnedNumberAdjusted)
@@ -522,24 +506,21 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
                 let tagID = Int(tag)
 
                 // Update the label for the card count
-                if let label = view.viewWithTag(tagID!) as? UILabel {
 
-                    // Calculate the scores
-                    let originalScore = Int(matchingScoreElement.earnedNumber) * Int(matchingScoreElement.pointValue)
-                    let newScore = Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)
 
-                    // Add to the round score
-                    calculatedRoundScore -= originalScore
-                    calculatedRoundScore += newScore
+                // Calculate the scores
+                let originalScore = Int(matchingScoreElement.earnedNumber) * Int(matchingScoreElement.pointValue)
+                let newScore = Int(earnedNumberAdjusted) * Int(matchingScoreElement.pointValue)
 
-                    setLabel (label, imageTextString: formatScore(newScore), backgroundColor: UIColor.whiteColor())
-                }
+                // Add to the round score
+                calculatedRoundScore -= originalScore
+                calculatedRoundScore += newScore
+
+                sf.setLabel (view.viewWithTag(tagID!) as? UILabel, imageTextString: sf.formatScore(newScore), backgroundColor: UIColor.whiteColor())
+
 
                 // Update the totals
-                if let label = view.viewWithTag(993) as? UILabel {
-
-                    setLabel (label, imageTextString: formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
-                }
+                sf.setLabel (view.viewWithTag(993) as? UILabel, imageTextString: sf.formatScore(calculatedRoundScore), backgroundColor: UIColor.whiteColor())
                 
                 // Adjust the earned amount and the Round Total
                 matchingScoreElement.adjustEarnedNumber(earnedNumberAdjusted)
@@ -548,31 +529,7 @@ class HFRoundScoreViewController: UIViewController, NSFetchedResultsControllerDe
             }
         }
     }
-    
-    // ***** LABEL MANAGEMENT **** //
-    
-    // Set the label text and background color
-    func setLabel (label: UILabel!, imageTextString: String!, backgroundColor: UIColor) {
-        
-        dispatch_async(dispatch_get_main_queue(), {
-            label.hidden = true
-            
-            label.text = imageTextString
-            label.backgroundColor = backgroundColor
-            
-            
-            label.hidden = false
-        })
-        
-    }
-    
-    // Add the comma to the score and totals
-    func formatScore(score: Int!) -> String {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .DecimalStyle
-        return formatter.stringFromNumber(score)!
-    }
-    
+     
     
     
     // ***** CORE DATA  MANAGEMENT  **** //

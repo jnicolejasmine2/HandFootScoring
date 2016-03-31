@@ -16,6 +16,12 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
     var firstTimeSwitch = true
 
+    let statusIconArray = ["status0","status25","status50","status75","status100"]
+
+
+
+    // Shared Functions ShortCode
+    let sf = SharedFunctions.sharedInstance()
 
 
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
@@ -34,6 +40,7 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
 
         // Load the table
+        gameTableView.rowHeight = 130.0
         gameTableView.reloadData()
 
 
@@ -76,14 +83,11 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     // If there is an active game, then present the game rounds, skipping the table
     func checkForActiveGame(savedGameId: String) {
         for fetchedGame in fetchedResultsControllerGame.fetchedObjects as! [Game]  {
-            print("savedID: \(savedGameId)")
-            print("fetchedGame.gameId: \(fetchedGame.gameId)")
 
             if fetchedGame.gameId == savedGameId {
 
                 let dateCompareResult =  SharedFunctions.sharedInstance().compareDates(NSDate(), toDate: fetchedGame.date, granularity: .Day)
-                print("selectedate: \(fetchedGame.date)")
-                print("dateCompareResult: \(dateCompareResult)")
+
                 if  dateCompareResult == "=" {
                     let summaryController = storyboard!.instantiateViewControllerWithIdentifier("GameSummaryViewController") as! GameSummaryViewController
 
@@ -127,11 +131,7 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
         let date30DaysPast = NSCalendar.currentCalendar().dateByAddingComponents(dateComponents, toDate: currentDate, options: NSCalendarOptions(rawValue: 0))
 
         var fetchedGameIndex = 0
-        for fetchedGame in fetchedResultsControllerGame.fetchedObjects!   {
-
-         //   print("fetchedGame.date: \(fetchedGame.date)")
-            print("date30DaysPast: \(date30DaysPast)")
-
+        for fetchedGame in fetchedResultsControllerGame.fetchedObjects! {
 
             if fetchedGame.date != nil {
                // let order = NSCalendar.currentCalendar().compareDate(date30DaysPast!, toDate:date30DaysPast!, toUnitGranularity: .Day)
@@ -236,7 +236,7 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
         cell.backgroundColor = Style.sharedInstance().tableBackgroundColor()
 
-        let imageName = determineGameStatusImage(Int(fetchedGame.lastCompletedRound))
+        let imageName = statusIconArray[Int(fetchedGame.lastCompletedRound)]
         cell.gameStatus.image = UIImage(named: imageName)
 
         // If game is completed, change the color on the table
@@ -256,7 +256,6 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
         if  dateCompareResult == "<" {
             cell.backgroundColor = Style.sharedInstance().tableDisabled()
             backgroundView.backgroundColor = Style.sharedInstance().tableDisabled()
-            print("Descending")
         }
 
         // Set the selected view to the background view color
@@ -306,7 +305,6 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
 
     // Build the team Info line for the cell
-
     func buildTeamInfo(fetchedGame: Game, team: Int) -> String {
 
         // Set the initials
@@ -336,16 +334,17 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
         // Format the meld and the game score
         // Determine last Completed Round
-        let teamLastCompletedRound = determineLastCompletedRound(fetchedGame, team: team)
+        let fetchedRounds = fetchedResultsControllerRound.fetchedObjects as! [RoundScore]
+        let teamLastCompletedRound = sf.determineLastCompletedRound(fetchedGame, fetchedRounds: fetchedRounds)
 
         // Get the current team's score
         let teamGameTotal =  getGameTotal (fetchedGame, team: team)
 
         // From the score and last completed Round determine the current meld
-        let teamMeld = determineMeld(fetchedGame, gameTotalWork: teamGameTotal, lastCompletedRound: teamLastCompletedRound)
+        let teamMeld = sf.determineMeld(fetchedGame, gameTotalScore: teamGameTotal, lastCompletedRound: teamLastCompletedRound)
 
         // Add the meld and score to the team info
-        teamInfo = teamInfo + "  Meld: " + teamMeld + "  Score: " + formatScore(teamGameTotal)
+        teamInfo = teamInfo + "  Meld: " + teamMeld + "  Score: " + sf.formatScore(teamGameTotal)
 
 
         // To get the difference, must determine which team has the most score 
@@ -374,86 +373,15 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
             winningGameTotal = team3GameTotal
         }
 
-
         // Calculate the difference and add to the team line
         var teamGameDifference = 0
         teamGameDifference = winningGameTotal - teamGameTotal
 
         if teamGameDifference > 0 {
-            teamInfo = teamInfo + "  -" + formatScore(teamGameDifference)
+            teamInfo = teamInfo + "  -" + sf.formatScore(teamGameDifference)
         }
 
         return teamInfo
-    }
-
-
-    func determineGameStatusImage(lastCompletedRound: Int) -> String {
-
-        // Check the status of the game using the last round selected
-        switch lastCompletedRound {
-        case 0:
-            return "status0"
-        case 1:
-            return "status25"
-        case 2:
-            return "status50"
-        case 3:
-            return "status75"
-        case 4:
-            return "status100"
-
-        default:
-            return "whiteSpace"
-        }
-    }
-
-    // Loop through all the rounds for all the teams to determine which rounds are completed.
-    // They are considered completed when all the teams have a non-zero score
-    func determineLastCompletedRound(selectedGame: Game, team: Int) -> Int {
-        var lastCompletedRoundTeam1: Int = 0
-        var lastCompletedRoundTeam2: Int = 0
-        var lastCompletedRoundTeam3: Int = 0
-
-        // Loop through all the teams and find the last completed round.
-        for fetchedRound in fetchedResultsControllerRound.fetchedObjects as! [RoundScore] {
-
-            if fetchedRound.gameId == selectedGame.gameId {
-
-                switch fetchedRound.teamNumber {
-                case 1:
-                    if Int(fetchedRound.roundTotal) > 0 && Int(fetchedRound.roundNumber) > lastCompletedRoundTeam1 {
-                        lastCompletedRoundTeam1 = Int(fetchedRound.roundNumber)
-                    }
-                    break
-                case 2:
-                    if Int(fetchedRound.roundTotal) > 0 && Int(fetchedRound.roundNumber) > lastCompletedRoundTeam2 {
-                        lastCompletedRoundTeam2 = Int(fetchedRound.roundNumber)
-                    }
-                    break
-                case 3:
-                    if Int(fetchedRound.roundTotal) > 0 && Int(fetchedRound.roundNumber) > lastCompletedRoundTeam3 {
-                        lastCompletedRoundTeam3 = Int(fetchedRound.roundNumber)
-                    }
-                    break
-                default:
-                    break
-                }
-            }
-        }
-
-        // Look at the last completed rounds for the teams and set the last completed round
-        var lastCompletedRound: Int = 0
-
-        if lastCompletedRoundTeam1 <= lastCompletedRoundTeam2 {
-            lastCompletedRound = lastCompletedRoundTeam1
-        } else {
-            lastCompletedRound = lastCompletedRoundTeam2
-        }
-
-        if selectedGame.maximumNumberOfTeams == 3  && lastCompletedRoundTeam3 <= lastCompletedRound {
-            lastCompletedRound = lastCompletedRoundTeam3
-        }
-        return lastCompletedRound
     }
 
 
@@ -473,55 +401,8 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     }
 
 
-    // Determine the meld.  There is a threshhold option where the meld is dependent on score
-    // and there is a static (set) meld where each round has a set meld
-    func determineMeld(selectedGame: Game, gameTotalWork: Int, lastCompletedRound: Int) -> String! {
-
-        var meldValue = "  "
-
-        // Meld is based on score thresholds.
-        if selectedGame.meldOption == "Threshhold" {
-
-            // Check total score against threshholds, send back meld
-            meldValue = selectedGame.meld1Value
-
-            if gameTotalWork > Int(selectedGame.meld4Threshold) {
-                meldValue = selectedGame.meld4Value
-
-            } else if gameTotalWork > Int(selectedGame.meld3Threshold) {
-                meldValue = selectedGame.meld3Value
-
-            } else if gameTotalWork > Int(selectedGame.meld2Threshold) {
-                meldValue = selectedGame.meld2Value
-            }
-
-        } else if selectedGame.meldOption == "Static" {
-
-            // Meld is based on the completed round
-            if lastCompletedRound == 0 {
-                meldValue =  "50"
-            } else if lastCompletedRound == 1 {
-                meldValue =  "90"
-            } else if lastCompletedRound == 2 {
-                meldValue =  "120"
-            } else  {
-                meldValue = "150"
-            }
-        }
-        return meldValue
-    }
-
-
-
-    // Add the comma to the score and totals
-    func formatScore(score: Int!) -> String {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .DecimalStyle
-        return formatter.stringFromNumber(score)!
-    }
     
-
-
+ 
  // ***** CORE DATA  MANAGEMENT  **** //
 
 

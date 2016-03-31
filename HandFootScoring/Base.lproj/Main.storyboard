@@ -23,6 +23,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="OS3-9U-xjw"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Games" id="uMC-qa-Hn5">
                                         <barButtonItem key="leftBarButtonItem" tag="1" image="menu" id="YZF-en-JdB">
@@ -36,22 +39,6 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ku5-6d-xEq">
-                                <rect key="frame" x="0.0" y="560" width="600" height="40"/>
-                                <color key="backgroundColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="OF1-eh-FRB"/>
-                                    <constraint firstAttribute="height" constant="40" id="Znb-0B-CJ5"/>
-                                </constraints>
-                                <state key="normal" title="Leaderboard">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="OF1-eh-FRB"/>
-                                    </mask>
-                                </variation>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="gameTableCell" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="93" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="E2N-ps-d6r">
                                 <rect key="frame" x="0.0" y="70" width="600" height="485"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,11 +47,11 @@
                                 </constraints>
                                 <color key="separatorColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GameTableCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GameTableCell" rowHeight="128" id="nYG-nl-Ty6" customClass="GameTableCell" customModule="HandFootScoring">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="128"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GameTableCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GameTableCell" rowHeight="130" id="nYG-nl-Ty6" customClass="GameTableCell" customModule="HandFootScoring">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nYG-nl-Ty6" id="e2d-Ne-W9f">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4L-hh-Q6x" userLabel="Date">
@@ -73,7 +60,7 @@
                                                         <constraint firstAttribute="width" constant="200" id="sfa-XQ-UIE"/>
                                                         <constraint firstAttribute="height" constant="25" id="szz-31-SO4"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -126,7 +113,7 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJ4-tp-agr">
-                                                    <rect key="frame" x="-12" y="126" width="624" height="2"/>
+                                                    <rect key="frame" x="-12" y="128" width="624" height="2"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="2" id="pUG-LT-2bm"/>
@@ -209,6 +196,22 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="DaB-E6-Set"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ku5-6d-xEq">
+                                <rect key="frame" x="0.0" y="560" width="600" height="40"/>
+                                <color key="backgroundColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="OF1-eh-FRB"/>
+                                    <constraint firstAttribute="height" constant="40" id="Znb-0B-CJ5"/>
+                                </constraints>
+                                <state key="normal" title="Leaderboard">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="OF1-eh-FRB"/>
+                                    </mask>
+                                </variation>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -324,6 +327,9 @@
                                     <constraint firstAttribute="height" constant="35" id="U5w-bc-9so"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="XQ3-CP-kqo"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Players" id="lLt-jE-hS6">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="6rq-xy-X6X">
@@ -389,11 +395,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xFc-98-UYu">
-                                <rect key="frame" x="0.0" y="8" width="600" height="35"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="2b6-j3-t6U"/>
                                     <constraint firstAttribute="height" constant="35" id="4yg-tW-dOT"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Change Players" id="GxE-hQ-wKJ">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="LpU-SS-6L7">
@@ -410,7 +419,7 @@
                                 </variation>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="nXh-hI-ulG">
-                                <rect key="frame" x="175" y="168" width="250" height="265"/>
+                                <rect key="frame" x="175" y="188" width="250" height="265"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oWk-1s-yuO">
                                         <rect key="frame" x="10" y="0.0" width="230" height="87"/>
@@ -674,6 +683,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="xFc-98-UYu" firstAttribute="top" secondItem="0aP-xC-K7t" secondAttribute="bottom" constant="8" id="4MX-gL-f4s"/>
                             <constraint firstItem="xFc-98-UYu" firstAttribute="top" secondItem="h6l-O3-xDn" secondAttribute="topMargin" constant="8" id="DxC-dr-gFD"/>
                             <constraint firstItem="93Z-8H-nEm" firstAttribute="top" secondItem="xFc-98-UYu" secondAttribute="bottom" constant="125" id="XBB-Fi-1AA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xFc-98-UYu" secondAttribute="trailing" constant="-20" id="bsM-96-pCk"/>
@@ -683,6 +693,11 @@
                             <constraint firstItem="nXh-hI-ulG" firstAttribute="centerX" secondItem="h6l-O3-xDn" secondAttribute="centerX" id="nsX-EA-baC"/>
                             <constraint firstItem="qJg-Rk-9JU" firstAttribute="leading" secondItem="h6l-O3-xDn" secondAttribute="leadingMargin" constant="-20" id="xNf-FQ-clz"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DxC-dr-gFD"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="Team1Label" destination="oGq-yC-RE0" id="FyD-8P-2l9"/>
@@ -714,6 +729,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="esR-qJ-BbY"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="New Game" id="fdd-Ka-M6v">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="UbO-td-hTL">
@@ -733,7 +751,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1tr-yE-hWd" userLabel="Team1View">
                                                 <rect key="frame" x="0.0" y="0.0" width="230" height="70"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" tag="10" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e4Q-h6-Dgi" userLabel="Team1Image">
+                                                    <imageView userInteractionEnabled="NO" tag="10" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconRound1" translatesAutoresizingMaskIntoConstraints="NO" id="e4Q-h6-Dgi" userLabel="Team1Image">
                                                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="70" id="CDD-Gd-vUO"/>
@@ -810,7 +828,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Av7-uG-cek" userLabel="Team2View">
                                                 <rect key="frame" x="0.0" y="0.0" width="230" height="70"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" tag="20" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gQj-xK-G6E" userLabel="Team2Image">
+                                                    <imageView userInteractionEnabled="NO" tag="20" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconRound2" translatesAutoresizingMaskIntoConstraints="NO" id="gQj-xK-G6E" userLabel="Team2Image">
                                                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="70" id="83b-Vn-488"/>
@@ -883,7 +901,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="B7d-O5-JOc" userLabel="Team3View">
                                                 <rect key="frame" x="0.0" y="0.0" width="230" height="70"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" tag="30" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="219-Mm-RaA" userLabel="Team3Image">
+                                                    <imageView userInteractionEnabled="NO" tag="30" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconRound3" translatesAutoresizingMaskIntoConstraints="NO" id="219-Mm-RaA" userLabel="Team3Image">
                                                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="70" id="L3t-wq-eXk"/>
@@ -963,10 +981,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CVY-Bi-jTQ">
-                                <rect key="frame" x="0.0" y="560" width="600" height="40"/>
+                                <rect key="frame" x="0.0" y="565" width="600" height="35"/>
                                 <color key="backgroundColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="8Xv-jp-3BS">
+                                    <constraint firstAttribute="height" constant="35" id="8Xv-jp-3BS">
                                         <variation key="heightClass=regular" constant="40"/>
                                     </constraint>
                                 </constraints>
@@ -983,51 +1001,21 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="CVY-Bi-jTQ" firstAttribute="top" secondItem="W2P-2x-fR3" secondAttribute="bottom" constant="8" id="118-Lg-pyF"/>
-                            <constraint firstItem="CVY-Bi-jTQ" firstAttribute="top" secondItem="cx3-H4-B7Y" secondAttribute="bottom" constant="14" id="9JP-Ry-ggf"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="W2P-2x-fR3" secondAttribute="trailing" constant="10" id="Ars-cX-ail"/>
-                            <constraint firstItem="Dbs-K0-d2c" firstAttribute="top" secondItem="CVY-Bi-jTQ" secondAttribute="bottom" id="CFR-kF-RI7">
-                                <variation key="heightClass=regular" constant="10"/>
-                            </constraint>
                             <constraint firstItem="W2P-2x-fR3" firstAttribute="centerX" secondItem="Nfd-Hx-DdE" secondAttribute="centerX" id="D4Z-yZ-fJp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g21-zD-TPq" secondAttribute="trailing" constant="-20" id="DKe-fb-VGM"/>
                             <constraint firstItem="cx3-H4-B7Y" firstAttribute="top" secondItem="g21-zD-TPq" secondAttribute="bottom" id="ELq-HN-c3C"/>
-                            <constraint firstItem="W2P-2x-fR3" firstAttribute="centerY" secondItem="Nfd-Hx-DdE" secondAttribute="centerY" id="Ooy-bh-eg4"/>
-                            <constraint firstItem="W2P-2x-fR3" firstAttribute="top" secondItem="cx3-H4-B7Y" secondAttribute="bottom" constant="20" id="RAv-SU-jO9"/>
-                            <constraint firstItem="W2P-2x-fR3" firstAttribute="leading" secondItem="Nfd-Hx-DdE" secondAttribute="leadingMargin" constant="-10" id="SFn-vp-ZVU"/>
-                            <constraint firstItem="W2P-2x-fR3" firstAttribute="leading" secondItem="Nfd-Hx-DdE" secondAttribute="leadingMargin" constant="10" id="VVt-2I-RcI"/>
+                            <constraint firstItem="Dbs-K0-d2c" firstAttribute="top" secondItem="CVY-Bi-jTQ" secondAttribute="bottom" id="Wj4-t1-7sP"/>
                             <constraint firstItem="cx3-H4-B7Y" firstAttribute="leading" secondItem="Nfd-Hx-DdE" secondAttribute="leadingMargin" constant="-10" id="XMN-qE-eJt"/>
-                            <constraint firstItem="W2P-2x-fR3" firstAttribute="centerY" secondItem="Nfd-Hx-DdE" secondAttribute="centerY" id="bB4-l5-fFV"/>
                             <constraint firstItem="W2P-2x-fR3" firstAttribute="top" secondItem="cx3-H4-B7Y" secondAttribute="bottom" constant="20" id="jAb-21-oZT"/>
-                            <constraint firstItem="W2P-2x-fR3" firstAttribute="centerX" secondItem="Nfd-Hx-DdE" secondAttribute="centerX" id="kTI-RH-VXq"/>
                             <constraint firstItem="g21-zD-TPq" firstAttribute="leading" secondItem="Nfd-Hx-DdE" secondAttribute="leadingMargin" constant="-20" id="lIu-WU-afC"/>
                             <constraint firstItem="CVY-Bi-jTQ" firstAttribute="leading" secondItem="Nfd-Hx-DdE" secondAttribute="leadingMargin" constant="-20" id="qZw-cS-kpe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cx3-H4-B7Y" secondAttribute="trailing" constant="-10" id="rI2-Ph-yiM"/>
                             <constraint firstItem="g21-zD-TPq" firstAttribute="top" secondItem="1Xi-Pf-r6e" secondAttribute="bottom" constant="8" id="tgy-YO-LZF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CVY-Bi-jTQ" secondAttribute="trailing" constant="-20" id="zeL-5c-132"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Ars-cX-ail"/>
-                                <exclude reference="Ooy-bh-eg4"/>
-                                <exclude reference="RAv-SU-jO9"/>
-                                <exclude reference="SFn-vp-ZVU"/>
-                                <exclude reference="VVt-2I-RcI"/>
-                                <exclude reference="bB4-l5-fFV"/>
-                                <exclude reference="kTI-RH-VXq"/>
-                                <exclude reference="118-Lg-pyF"/>
-                                <exclude reference="9JP-Ry-ggf"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="CancelGame" destination="UbO-td-hTL" id="nJ5-lm-jg2"/>
-                        <outlet property="Team1Label" destination="vEp-0X-LI2" id="7fm-QD-FcR"/>
-                        <outlet property="Team1View" destination="1tr-yE-hWd" id="Wh2-MO-tRf"/>
-                        <outlet property="Team2Label" destination="elx-Gs-8zU" id="6fX-7h-xbP"/>
-                        <outlet property="Team2View" destination="Av7-uG-cek" id="FzY-0u-9OF"/>
-                        <outlet property="Team3Label" destination="fAT-uB-nJ7" id="YCh-lL-kjf"/>
-                        <outlet property="Team3View" destination="B7d-O5-JOc" id="vtF-Xa-N93"/>
                         <outlet property="segmentControl" destination="cx3-H4-B7Y" id="JdH-hV-fD6"/>
                         <outlet property="startButton" destination="CVY-Bi-jTQ" id="mKD-bj-ers"/>
                     </connections>
@@ -1068,26 +1056,8 @@
                                     <action selector="roundTeamComplete:" destination="vhS-eE-CTi" eventType="touchUpInside" id="pK6-Hw-IEv"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ceK-Fv-mEc">
-                                <rect key="frame" x="0.0" y="8" width="600" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="fq2-4a-Vqw"/>
-                                    <constraint firstAttribute="height" constant="35" id="fwl-ci-cQ1"/>
-                                </constraints>
-                                <textAttributes key="titleTextAttributes">
-                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Round: x, Team: Name1, Name 2" id="bl9-RB-C6Q"/>
-                                </items>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="fq2-4a-Vqw"/>
-                                    </mask>
-                                </variation>
-                            </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Oew-5x-cHP">
-                                <rect key="frame" x="10" y="93" width="575" height="235"/>
+                                <rect key="frame" x="10" y="113" width="575" height="235"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FZc-T0-cdj">
                                         <rect key="frame" x="0.0" y="0.0" width="313" height="25"/>
@@ -1561,9 +1531,28 @@
                                     </mask>
                                 </variation>
                             </stackView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ceK-Fv-mEc">
+                                <rect key="frame" x="0.0" y="28" width="600" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="fq2-4a-Vqw"/>
+                                    <constraint firstAttribute="height" constant="35" id="fwl-ci-cQ1"/>
+                                </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Round: x, Team: Name1, Name 2" id="bl9-RB-C6Q"/>
+                                </items>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="fq2-4a-Vqw"/>
+                                    </mask>
+                                </variation>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ceK-Fv-mEc" firstAttribute="top" secondItem="NSw-W0-oTZ" secondAttribute="bottom" constant="8" id="D59-no-MDP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Oew-5x-cHP" secondAttribute="trailing" constant="-5" id="Iav-2e-Cdh"/>
                             <constraint firstItem="4qI-Xv-qsZ" firstAttribute="leading" secondItem="VU4-1s-nFY" secondAttribute="leadingMargin" constant="-20" id="Ocj-lh-d4d"/>
                             <constraint firstItem="ceK-Fv-mEc" firstAttribute="top" secondItem="VU4-1s-nFY" secondAttribute="topMargin" constant="8" id="OmJ-i9-QDZ"/>
@@ -1579,6 +1568,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="OmJ-i9-QDZ"/>
                                 <exclude reference="as6-4F-4Om"/>
                                 <exclude reference="pLD-Nq-3Pc"/>
                                 <exclude reference="guX-vQ-Hxf"/>
@@ -1596,7 +1586,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1mx-HM-iDh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1484" y="1728"/>
+            <point key="canvasLocation" x="1484" y="1743"/>
         </scene>
         <!--GameSummaryViewController-->
         <scene sceneID="nfc-n6-CDg">
@@ -1610,21 +1600,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UQY-bg-Azf">
-                                <rect key="frame" x="0.0" y="28" width="600" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="2Bg-8d-RpH"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="Game Summary " id="E0d-l5-2tP" userLabel="Game Summary">
-                                        <barButtonItem key="leftBarButtonItem" title="&lt; Games" id="ooP-S1-veo">
-                                            <connections>
-                                                <action selector="backToGamesButtonAction:" destination="eAr-Oz-Z8B" id="Hp8-je-V05"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Hle-bZ-2k8">
                                 <rect key="frame" x="145" y="68" width="310" height="411"/>
                                 <subviews>
@@ -2147,11 +2122,29 @@
                                     </mask>
                                 </variation>
                             </stackView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UQY-bg-Azf">
+                                <rect key="frame" x="0.0" y="28" width="600" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="2Bg-8d-RpH"/>
+                                </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Game Summary " id="E0d-l5-2tP" userLabel="Game Summary">
+                                        <barButtonItem key="leftBarButtonItem" title="&lt; Games" id="ooP-S1-veo">
+                                            <connections>
+                                                <action selector="backToGamesButtonAction:" destination="eAr-Oz-Z8B" id="Hp8-je-V05"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Hle-bZ-2k8" firstAttribute="top" secondItem="UQY-bg-Azf" secondAttribute="bottom" constant="5" id="0ep-9U-rPF"/>
-                            <constraint firstItem="UQY-bg-Azf" firstAttribute="top" secondItem="h4G-mZ-g7x" secondAttribute="bottom" constant="8" id="0yN-cW-87X"/>
+                            <constraint firstItem="UQY-bg-Azf" firstAttribute="top" secondItem="h4G-mZ-g7x" secondAttribute="bottom" constant="8" id="EBG-gP-nIR"/>
                             <constraint firstItem="Hle-bZ-2k8" firstAttribute="centerY" secondItem="lhk-ze-vON" secondAttribute="centerY" id="Phg-4D-MtW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="UQY-bg-Azf" secondAttribute="trailing" constant="-20" id="YQg-jJ-VHL"/>
                             <constraint firstItem="UQY-bg-Azf" firstAttribute="top" secondItem="lhk-ze-vON" secondAttribute="topMargin" constant="8" id="br2-IQ-xHq"/>
@@ -2193,7 +2186,7 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="VYo-c9-zuz"/>
                                 </constraints>
                                 <textAttributes key="titleTextAttributes">
-                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Round: x, Team: Name1, Name 2" id="gIn-C4-rXY"/>
@@ -3105,6 +3098,9 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="9iw-N9-mtz"/>
                                     <constraint firstAttribute="height" constant="35" id="AjZ-Z1-YCa"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Player Profile" id="p6q-r2-uIk">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="bhu-7Z-64Z">
@@ -3386,6 +3382,9 @@
                                     <constraint firstAttribute="height" constant="35" id="McE-hj-kBU"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="nDg-xU-6Mi"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Round: x, Team: Name1, Name 2" id="0ns-Bl-lc1"/>
                                 </items>
@@ -3543,8 +3542,11 @@
         <image name="backspace" width="25" height="25"/>
         <image name="checkMark" width="25" height="25"/>
         <image name="editPlayers" width="25" height="25"/>
+        <image name="iconRound1" width="25" height="25"/>
         <image name="iconRound1NotStarted" width="25" height="25"/>
+        <image name="iconRound2" width="25" height="25"/>
         <image name="iconRound2NotStarted" width="25" height="25"/>
+        <image name="iconRound3" width="25" height="25"/>
         <image name="iconRound3NotStarted" width="25" height="25"/>
         <image name="iconRound4NotStarted" width="25" height="25"/>
         <image name="menu" width="25" height="25"/>

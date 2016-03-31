@@ -80,33 +80,19 @@ class ScoreElement: NSManagedObject {
 
         earnedNumber = adjustedNumber
 
-        print("earned- original/new: \(originalNumberInt), \(earnedNumber)")
-        print("pointValue: \(pointValueInt)")
         let originalScore = originalNumberInt * pointValueInt
         let newScore = adjustedNumber * pointValueInt
-
-
-        print("originalScore: \(originalScore)")
-        print("newScore: \(newScore)")
-
-       // print("round: \(round)")
 
         var adjustedRoundTotal = Int(round.roundTotal)
         adjustedRoundTotal -= originalScore
         adjustedRoundTotal += newScore
 
         round.roundTotal = adjustedRoundTotal
-
-        
-
-      //  print("round.roundTotal: \(round.roundTotal)")
-        print("elementNumber updated: \(elementNumber)")
     }
 
 
     // When a photo is deleted from core data delete the corresponding document
     override func prepareForDeletion() {
-        print("score element: \(roundNumber), \(teamNumber), \(elementDescription) was deleted")
     }
 
 

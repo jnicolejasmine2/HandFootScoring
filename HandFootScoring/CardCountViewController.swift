@@ -12,18 +12,24 @@ class CardCountViewController: UIViewController {
 
     var delegate: CardCountViewControllerDelegate?
 
+    // Passed from RoundScore View Controller
     var originalCardCount: Int = 0
     var originalSubtractCount: Int = 0
+    var selectedViewTitle: String = " "
 
+    // Variables
     var newCardCount: Int = 0
     var newSubtractCount: Int = 0
-
-    var selectedViewTitle: String = " "
 
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var cardCountSegmentControl: UIStackView!
     @IBOutlet weak var subtractCountSegmentControl: UIStackView!
     @IBOutlet weak var completedButton: UIButton!
+
+
+    // Shared Functions ShortCode
+    let sf = SharedFunctions.sharedInstance()
+
 
 
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
@@ -34,15 +40,11 @@ class CardCountViewController: UIViewController {
         // Set the title
         navigationBar.topItem!.title = selectedViewTitle
 
-        // Set the original card count
-        if let label = view.viewWithTag(91) as? UILabel {
-            setLabel (label, imageTextString: formatScore(originalCardCount), backgroundColor: UIColor.whiteColor())
-        }
+        // Set the original card count for the view
+        sf.setLabel (view.viewWithTag(91) as? UILabel, imageTextString: sf.formatScore(originalCardCount), backgroundColor: UIColor.whiteColor())
 
-        // Set the original subtract count
-        if let label = view.viewWithTag(92) as? UILabel {
-            setLabel (label, imageTextString: formatScore(originalSubtractCount), backgroundColor: UIColor.whiteColor())
-        }
+        // Set the original subtract count for the view
+        sf.setLabel ( view.viewWithTag(92) as? UILabel, imageTextString: sf.formatScore(originalSubtractCount), backgroundColor: UIColor.whiteColor())
 
         // Initialize the card count so we can adjust it
         newCardCount = originalCardCount
@@ -71,6 +73,7 @@ class CardCountViewController: UIViewController {
         let tagID = sender.tag
         let numberChosen = sender.selectedSegmentIndex
 
+        // If a number was chosen 0-9, then add to the count and update the control
         if numberChosen <= 9 {
 
             // If tag == 1, then working with the card count
@@ -85,9 +88,7 @@ class CardCountViewController: UIViewController {
                 if cardCountTemp.characters.count < 5 {
 
                     newCardCount = Int(cardCountTemp)!
-                    if let label = view.viewWithTag(91) as? UILabel {
-                         setLabel(label, imageTextString: formatScore(newCardCount), backgroundColor: UIColor.whiteColor())
-                    }
+                    sf.setLabel(view.viewWithTag(91) as? UILabel, imageTextString: sf.formatScore(newCardCount), backgroundColor: UIColor.whiteColor())
                 }
             } else {
 
@@ -101,9 +102,9 @@ class CardCountViewController: UIViewController {
                 if cardCountTemp.characters.count < 5  {
 
                     newSubtractCount = Int(cardCountTemp)!
-                    if let label = view.viewWithTag(92) as? UILabel {
-                        setLabel(label, imageTextString: formatScore(newSubtractCount * -1), backgroundColor: UIColor.whiteColor())
-                    }
+
+                    sf.setLabel(view.viewWithTag(92) as? UILabel, imageTextString: sf.formatScore(newSubtractCount * -1), backgroundColor: UIColor.whiteColor())
+
                 }
             }
         } else {
@@ -130,9 +131,8 @@ class CardCountViewController: UIViewController {
                 }
 
                 newCardCount = Int(cardCountTemp2)!
-                if let label = view.viewWithTag(91) as? UILabel {
-                    setLabel(label, imageTextString: formatScore(newCardCount), backgroundColor: UIColor.whiteColor())
-                }
+                sf.setLabel(view.viewWithTag(91) as? UILabel, imageTextString: sf.formatScore(newCardCount), backgroundColor: UIColor.whiteColor())
+
 
             } else {
 
@@ -152,36 +152,12 @@ class CardCountViewController: UIViewController {
                 }
 
                 newSubtractCount = Int(cardCountTemp2)!
-                if let label = view.viewWithTag(92) as? UILabel {
-                    setLabel(label, imageTextString: formatScore(newSubtractCount * -1), backgroundColor: UIColor.whiteColor())
-                }
+                sf.setLabel(view.viewWithTag(92) as? UILabel , imageTextString: sf.formatScore(newSubtractCount * -1), backgroundColor: UIColor.whiteColor())
+
             }
         }
 
         self.delegate!.updateCardCounts(self, cardCount: newCardCount, subtractCount: (newSubtractCount * -1))
-    }
-
-
-
-    // ***** LABEL MANAGEMENT **** //
-
-    // Set the label text and background color
-    func setLabel (label: UILabel!, imageTextString: String!, backgroundColor: UIColor) {
-
-        dispatch_async(dispatch_get_main_queue(), {
-            label.hidden = true
-            label.text = imageTextString
-            label.backgroundColor = backgroundColor
-            label.hidden = false
-        })
-    }
-
-
-    // Add the comma to the score and totals
-    func formatScore(score: Int!) -> String {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .DecimalStyle
-        return formatter.stringFromNumber(score)!
     }
 
 }

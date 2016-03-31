@@ -49,6 +49,11 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
     @IBOutlet weak var Team3View: UIStackView!
     @IBOutlet weak var Team3Label: UIStackView!
 
+
+    // Shared Functions ShortCode
+    let sf = SharedFunctions.sharedInstance()
+
+
 // Need Finished Button.......................................
 
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
@@ -123,38 +128,18 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
 
         // Initalize variables for load
 
-        let selectedButton = self.view.viewWithTag(teamPlayerID) as! UIButton
+
 
         let teamPlayerIDValue = String(teamPlayerID)
         let index1 = teamPlayerIDValue.startIndex.advancedBy(0)
         let teamID = String(teamPlayerIDValue[index1])
 
         // Get the background color based on the team number/ID
-        let backgroundColor = setTeamBackgroundColor(teamID)
+        let backgroundColor = sf.setTeamBackgroundColor(teamID)
 
 
         // Update the team/Player button with the new players icon or image
-        if let _ = selectedPlayer.pictureFileName!.rangeOfString("icon") {
-            setButton (selectedButton, imageTextString: selectedPlayer.pictureFileName!, backgroundColor: backgroundColor)
-
-        }  else {
-            // saved Photo
-            let photoDocumentsFileName = selectedPlayer.pictureFileName
-
-            // Put the image from the documents folder into the cell
-            let photoDocumentsUrl = imageFileURL(photoDocumentsFileName!).path
-
-            // Check if photo is still in documents folder
-            let manager = NSFileManager.defaultManager()
-            if (manager.fileExistsAtPath(photoDocumentsUrl!)) {
-                let documentImage = UIImage(contentsOfFile: photoDocumentsUrl!)!
-                setButtonFromDocument(selectedButton, image: documentImage, backgroundColor: backgroundColor)
-            } else {
-
-                // For some reason, picture has not been set... set to missing player image
-                setButton(selectedButton, imageTextString: "missingPlayer", backgroundColor: backgroundColor)
-            }
-        }
+        sf.setButton (self.view.viewWithTag(teamPlayerID) as? UIButton, imageTextString: selectedPlayer.pictureFileName!, backgroundColor: backgroundColor)
 
         // Update the label for the player name
         let index2 = teamPlayerIDValue.startIndex.advancedBy(1)
@@ -167,9 +152,9 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
             tagID = Int(teamID + "5")!
         }
 
-        if let label  = view.viewWithTag(tagID) as? UILabel  {
-            setLabel(label, imageTextString: selectedPlayer.name, backgroundColor: backgroundColor)
-        }
+
+        sf.setLabel(view.viewWithTag(tagID) as? UILabel , imageTextString: selectedPlayer.name, backgroundColor: backgroundColor)
+
 
         // managed object for the selected Game
         let gameManagedObject = fetchedResultsControllerSelectedGame.fetchedObjects![0] as! Game
@@ -247,13 +232,12 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
             for control  in 0...5 {
 
                 var teamPlayer = " "
-                var teamImageName = "whiteSpace"
+                var teamImageName = "whitespace"
                 var teamInitial = " "
 
                 let teamPlayerTemp: String = String(teamNumber) + String(control)
                 let teamPlayerID = Int(teamPlayerTemp)!
 
-                print("teamPlayerID: \(teamPlayerID)")
                 switch teamPlayerID {
                 case 11, 14:
                     teamPlayer = selectedGame!.team1Player1
@@ -295,7 +279,7 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
                 }
 
                 // Get the background color based on the team number/ID
-                backgroundColor = setTeamBackgroundColor(String(teamNumber))
+                backgroundColor = sf.setTeamBackgroundColor(String(teamNumber))
 
                 let tag = String(teamNumber) + String(control)
                 let tagID = Int(tag)
@@ -304,14 +288,12 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
                 // Control =  "0" is the image that indicates the team number
                 if control == 0 {
 
-                    let image = view.viewWithTag(tagID!) as! UIImageView
-
                     //If team number is 3 and there are not 3 times just fill with whitespace else set to number in solid round
                     if teamNumber == 3 && numberOfTeams < 3 {
-                        setImage(image, imageTextString: "whitespace")
+                        sf.setImage(view.viewWithTag(tagID!) as! UIImageView, imageTextString: "whitespace")
                     }  else  {
-                        let imageName = "iconRound" + String(teamNumber)
-                        setImage(image, imageTextString: imageName)
+                      //  let imageName = "iconRound" + String(teamNumber)
+                        sf.setImage(view.viewWithTag(tagID!) as! UIImageView, imageTextString: "iconRound" + String(teamNumber))
                     }
 
                 }
@@ -319,34 +301,32 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
 
                 // Load player image from their profile
                 if control == 1 || control == 2  {
-                    if let button = view.viewWithTag(tagID!) as? UIButton  {
 
-                        // Set image to players image
-                        setButton(button, imageTextString: teamImageName, backgroundColor: backgroundColor)
+                    // Set image to players image
+                    sf.setButton(view.viewWithTag(tagID!) as? UIButton, imageTextString: teamImageName, backgroundColor: backgroundColor)
 
-                        // There is no team three, set to whitespace
-                        if teamNumber == 3 && numberOfTeams < 3 {
-                            setButton(button, imageTextString: "whitespace", backgroundColor: UIColor.whiteColor())
-                        }
+                    // There is no team three, set to whitespace
+                    if teamNumber == 3 && numberOfTeams < 3 {
+                        sf.setButton(view.viewWithTag(tagID!) as? UIButton, imageTextString: "whitespace", backgroundColor: UIColor.whiteColor())
                     }
+
 
 
                     // Set the Team Player Name
                     if control == 4 || control == 5  {
                         // Update the label for the player name
-                        if let label  = view.viewWithTag(tagID!) as? UILabel  {
 
-                            // Blank out name if no team 3
-                            if teamNumber == 3 && numberOfTeams < 3 {
-                                setLabel(label, imageTextString:"   ",  backgroundColor: UIColor.whiteColor())
+                        // Blank out name if no team 3
+                        if teamNumber == 3 && numberOfTeams < 3 {
+                            sf.setLabel(view.viewWithTag(tagID!) as? UILabel, imageTextString:"   ",  backgroundColor: UIColor.whiteColor())
 
-                            } else {
+                        } else {
 
-                                print("teamPlayer: \(teamPlayer)")
-                                //Set the label name for the player
-                                setLabel(label, imageTextString: teamPlayer, backgroundColor: backgroundColor)
-                            }
+                            print("teamPlayer: \(teamPlayer)")
+                            //Set the label name for the player
+                            sf.setLabel(view.viewWithTag(tagID!) as? UILabel, imageTextString: teamPlayer, backgroundColor: backgroundColor)
                         }
+
                     }
                 }
             }
@@ -354,85 +334,6 @@ class ChangePlayersViewController: UIViewController, UINavigationControllerDeleg
     }
 
 
-
-    // Set images
-    func setImage (image: UIImageView!, imageTextString: String!) {
-
-        dispatch_async(dispatch_get_main_queue(), {
-            image.hidden = true
-
-            image.image = UIImage(named: imageTextString)
-            if imageTextString ==  "whitespace" {
-                image.backgroundColor = UIColor.whiteColor()
-            }
-
-            image.hidden = false
-        })
-
-    }
-
-    // Set button image from an Icon
-    func setButton (button: UIButton!, imageTextString: String!, backgroundColor: UIColor) {
-
-        dispatch_async(dispatch_get_main_queue(), {
-            button.hidden = true
-
-            button.setImage(UIImage(named: imageTextString),  forState: UIControlState.Normal)
-            button.backgroundColor = backgroundColor
-            button.hidden = false
-        })
-
-    }
-
-    // Set button image from a saved photo in the documents folder
-    func setButtonFromDocument (button: UIButton!, image: UIImage, backgroundColor: UIColor) {
-
-        dispatch_async(dispatch_get_main_queue(), {
-            button.hidden = true
-
-            button.setImage(image, forState: UIControlState.Normal)
-            button.backgroundColor = backgroundColor
-            button.hidden = false
-        })
-
-    }
-
-    // Set the label text and background color
-    func setLabel (label: UILabel!, imageTextString: String!, backgroundColor: UIColor) {
-
-        dispatch_async(dispatch_get_main_queue(), {
-            label.hidden = true
-
-            label.text = imageTextString
-            label.backgroundColor = backgroundColor
-
-
-            label.hidden = false
-        })
-
-    }
-
-    // Based on the team number set the background color for the player button
-    func setTeamBackgroundColor(teamID: String) -> UIColor {
-
-        // Set the background color based on the team ID
-        var backgroundColor = UIColor.whiteColor()
-        switch teamID {
-        case "1":
-            backgroundColor =  Style.sharedInstance().team1ButtonBackgroundColor()
-            break
-        case "2":
-            backgroundColor =  Style.sharedInstance().team2ButtonBackgroundColor()
-            break
-        case "3":
-            backgroundColor =  Style.sharedInstance().team3ButtonBackgroundColor()
-            break
-        default:
-            backgroundColor =  UIColor.whiteColor()
-            break
-        }
-        return backgroundColor
-    }
 
     // ***** CORE DATA  MANAGEMENT  **** //
 
