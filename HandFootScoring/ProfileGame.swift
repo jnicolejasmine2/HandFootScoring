@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeanne Nicole Byers. All rights reserved.
 //
 
-
 import UIKit
 import CoreData
 
@@ -26,8 +25,6 @@ class ProfileGame: NSManagedObject {
         static let meld3Threshold = "meld3Threshold"
         static let meld4Threshold = "meld4Threshold"
         static let profileScoreElementId = "profileScoreElementId"
-
-
     }
 
     @NSManaged var gameProfileId: String
@@ -52,11 +49,11 @@ class ProfileGame: NSManagedObject {
 
     init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
 
-               // Prepare for Core Data Insert
+        // Prepare for Core Data Insert
         let entity =  NSEntityDescription.entityForName("ProfileGame", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
 
-        // Initialize the data elements for the Pin
+        // Initialize the data elements for the Profile Game
         gameProfileId = dictionary[Keys.gameProfileId] as! String
         gameDescription = dictionary[Keys.gameDescription] as! String
         maximumNumberOfTeams = dictionary[Keys.maximumNumberOfTeams] as! NSNumber
@@ -71,4 +68,5 @@ class ProfileGame: NSManagedObject {
         meld4Threshold = dictionary[Keys.meld4Threshold] as! NSNumber
         profileScoreElementId = dictionary[Keys.profileScoreElementId] as! String
     }
+
 }

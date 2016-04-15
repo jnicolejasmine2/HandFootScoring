@@ -32,25 +32,19 @@ class RoundScore: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
 
+
     init(dictionary: [String : AnyObject], context: NSManagedObjectContext, relatedGame: Game) {
 
         // Prepare for Core Data Insert
         let entity =  NSEntityDescription.entityForName("RoundScore", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
 
-        // Initialize the data elements for the Pin
+        // Initialize the data elements for the Round Score
         gameId = dictionary[Keys.gameId] as! String
         roundNumber = dictionary[Keys.roundNumber] as! NSNumber
         teamNumber = dictionary[Keys.teamNumber] as! NSNumber
         roundTotal = 0
         game = relatedGame
     }
-
-
-    // When a photo is deleted from core data delete the corresponding document
-    override func prepareForDeletion() {
-    }
-
-
 
 }

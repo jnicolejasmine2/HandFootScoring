@@ -13,7 +13,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
 
     // Passed when a game is selected from the game or is the active game
     var selectedGame: Game?
-
     var team1Initials = " "
     var team2Initials = " "
     var team3Initials = " "
@@ -26,7 +25,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
 
 
     // Outlets
-    @IBOutlet weak var changePlayers: UIButton!
     @IBOutlet weak var navigationBar: UINavigationBar!
 
 
@@ -65,6 +63,7 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
 
   // ***** BUTTON MANAGEMENT  **** //
 
+    // Back to Game button chosen, dismiss view controller
     @IBAction func backToGamesButtonAction(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -80,7 +79,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
             let tagDictionary = sf.separateTagId(tagID, option: "RoundTeam" )
             let selectedRound = Int(tagDictionary["round"]!)
             let selectedTeam = Int(tagDictionary["team"]!)
-
 
             // Check if we selected a round instead of the titles, totals and meld
             if selectedRound > 0 && selectedRound < 5 {
@@ -114,18 +112,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
     }
 
 
-    @IBAction func changePlayersButtonAction(sender: AnyObject) {
-
-        let changePlayersController = storyboard!.instantiateViewControllerWithIdentifier("ChangePlayersViewController") as! ChangePlayersViewController
-
-        changePlayersController.selectedGame = selectedGame!
-
-        // Present the view controller
-        presentViewController(changePlayersController, animated: true, completion: nil)
-    }
-
-
-
     // ***** ROUND/TEAM CONTROLS MANAGEMENT  **** //
 
     // Load the headers, round scores, totals and meld for all the teams
@@ -133,7 +119,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
 
         // set the initials and images for the team players
         initializePlayerTeamHeadings()
-
 
         // Run through all the rounds to total up scores and differences
         let totalDictionary = totalScores()
@@ -147,15 +132,16 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
             if sf.compareDates(NSDate(), toDate: selectedGame!.date, granularity: .Day) != "=" {
                 backgoundColor = Style.sharedInstance().teamRoundDisabled()
                 disableOption = true
-
             }
 
             // Load the round scores
             let tagString =  String(fetchedRound.roundNumber) + String(fetchedRound.teamNumber)
             let tagID = Int(tagString)
 
+            // set the round button
             sf.setButtonRound (view.viewWithTag(tagID!) as? UIButton, imageTextString: sf.formatScore(Int(fetchedRound.roundTotal)), backgroundColor: backgoundColor, toDate: selectedGame!.date, disable: disableOption )
 
+            // Calculate the difference
             var teamScore = 0
             var teamScoreDifference = 0
             switch Int(fetchedRound.teamNumber) {
@@ -175,6 +161,7 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
                 break
             }
 
+            // Set the difference in the button
             var differenceText = " "
             if teamScoreDifference > 0{
                 differenceText = "-" + sf.formatScore(teamScoreDifference)
@@ -182,10 +169,10 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
             sf.setButtonRound (view.viewWithTag(50 + Int(fetchedRound.teamNumber)) as? UIButton, imageTextString: sf.formatScore(teamScore)  + "\n" + differenceText, backgroundColor: backgoundColor, toDate: selectedGame!.date, disable: disableOption  )
 
 
-            // Set the Melds, first determine last completed round for the static option
+            // Set the Melds, first determine last completed round for the static option, then set the meld button
             let lastCompletedRound = sf.determineLastCompletedRound(selectedGame!, fetchedRounds: fetchedRounds)
 
-            let meld = sf.determineMeld(selectedGame!, gameTotalScore: totalDictionary["winningGameTotal"]!, lastCompletedRound: lastCompletedRound)
+            let meld = sf.determineMeld(selectedGame!, gameTotalScore: teamScore, lastCompletedRound: lastCompletedRound)
 
             sf.setButtonRound (view.viewWithTag(60 + Int(fetchedRound.teamNumber)) as? UIButton, imageTextString: meld , backgroundColor: backgoundColor, toDate: selectedGame!.date, disable: disableOption  )
         }
@@ -232,10 +219,8 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
                 if lastCompletedRoundPlusNext < round {
                     sf.setButtonRound (view.viewWithTag(tagIDRound!) as? UIButton, imageTextString: " ", backgroundColor: Style.sharedInstance().teamRoundDisabled(), toDate: selectedGame!.date, disable: true  )
                 }
-                
             }
         }
-
     }
 
 
@@ -246,7 +231,7 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
         let selectedNumberOfTeams = Int(selectedGame!.maximumNumberOfTeams)
         if selectedNumberOfTeams < 3 {
 
-            // Loop through the 3 controls for the team
+            // Loop through the 3 controls for the team and clear the buttons and labels
             for control in 0...8 {
 
                 let team = "3"
@@ -258,7 +243,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
 
                 } else {
                     sf.setLabel (view.viewWithTag(tagID!) as? UILabel, imageTextString: " ", backgroundColor: UIColor.whiteColor() )
-
                 }
             }
         }
@@ -294,7 +278,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
         // Determine the lastcompletedround so the meld can be determined
         for fetchedRound in fetchedResultsControllerRound.fetchedObjects as! [RoundScore] {
 
-            
             let team = String(fetchedRound.teamNumber)
 
             switch team {
@@ -348,7 +331,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
             winningGameTotal = team3TotalScore
         }
 
-
         return  [
             "team1TotalScore" : team1TotalScore,
             "team2TotalScore" : team2TotalScore,
@@ -368,6 +350,7 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
     // Set the team initials and images
     func initializePlayerTeamHeadings() {
 
+        // loop through each of the teams.
         for team in 1...3 {
 
             // Get the team information
@@ -387,7 +370,7 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
     }
 
 
-    // Get the current team inforamtion
+    // Get the current team inforamtion based on the team selected
     func getCurrentTeamInformation(team: Int) -> [String: String] {
 
             var player1Initials = " "
@@ -449,12 +432,11 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
             "OtherTeam2Initials" : otherTeam2Initials
             ]
     }
-     
 
 
 
 
-    // ***** CORE DATA  MANAGEMENT - PHOTO  **** //
+    // ***** CORE DATA  MANAGEMENT **** //
 
     // Shared Context Helper
     var sharedContext: NSManagedObjectContext {
@@ -490,7 +472,9 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
 
     // Called when a round score is updated from the RoundScore View Controller
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType,newIndexPath: NSIndexPath?) {
-        let objectName = anObject.entity.name
+
+        guard let managedObject = anObject as? NSManagedObject else { fatalError() }
+        let objectName = managedObject.entity.name
 
         switch type {
 
@@ -512,13 +496,6 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
                 // Save the changes from setting the game status
                 CoreDataStackManager.sharedInstance().saveContext()
             }
-
-            if objectName == "Game"  {
-
-                // set the initials and images for the team players
-                initializePlayerTeamHeadings()
-            }
-
             break;
 
         case .Move:
@@ -526,7 +503,4 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
         }
     }
 
-
-
 }
-

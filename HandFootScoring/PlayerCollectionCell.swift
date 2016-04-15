@@ -10,9 +10,7 @@ import UIKit
 
 class PlayerCollectionCell: UICollectionViewCell {
 
-
     @IBOutlet weak var playerName: UILabel!
     @IBOutlet weak var collectionCellImage: UIImageView!
-
 
 }

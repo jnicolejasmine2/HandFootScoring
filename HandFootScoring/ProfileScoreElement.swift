@@ -21,7 +21,6 @@ class ProfileScoreElement: NSManagedObject {
         static let defaultNumber = "defaultNumber"
         static let requiredNumber = "requiredNumber"
         static let winNumber = "winNumber"
-
     }
 
     @NSManaged var gameProfileId: String
@@ -47,7 +46,7 @@ class ProfileScoreElement: NSManagedObject {
         let entity =  NSEntityDescription.entityForName("ProfileScoreElement", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
 
-        // Initialize the data elements for the Pin
+        // Initialize the data elements for the Profile Score Element
         gameProfileId = dictionary[Keys.gameProfileId] as! String
         elementNumber = dictionary[Keys.elementNumber] as! NSNumber
         elementDescription = dictionary[Keys.elementDescription] as! String
@@ -58,4 +57,5 @@ class ProfileScoreElement: NSManagedObject {
         requiredNumber = dictionary[Keys.requiredNumber] as! NSNumber
         winNumber = dictionary[Keys.winNumber] as! NSNumber
     }
+
 }

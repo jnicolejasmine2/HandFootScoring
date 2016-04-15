@@ -8,20 +8,31 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class GameTableViewController: UIViewController,  NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource {
 
+
+    // Outlets
     @IBOutlet weak var gameTableView: UITableView!
     @IBOutlet weak var newGameButton: UIBarButtonItem!
+    @IBOutlet weak var uploadActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var uploadToLeaderboard: UIBarButtonItem!
 
+    // Variables
+    // Used to bypass this view and show current active game
     var firstTimeSwitch = true
 
+    // Icons to use for the game status
     let statusIconArray = ["status0","status25","status50","status75","status100"]
 
-
+    // Array of completed games that have not been uploaded to the leader board
+    var gamesToUpload: [Game] = []
 
     // Shared Functions ShortCode
     let sf = SharedFunctions.sharedInstance()
+
+
 
 
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
@@ -29,44 +40,25 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Check for first time, load the game, score elements in the profile
+        // Check for first time using the app, load the game, score elements in the profile
         checkForLoadedProfiles()
 
-        // Fetch any existing Games and all the round
+        // Fetch any existing Games, Rounds and Score Elements
         fetchResultsGamesAndRounds()
 
         // Delete any games that are over 30 days old
-        deleteGamesOver30DaysOld ()
+        deleteGamesOver30DaysOld()
 
-
-        // Load the table
+        // Load the Game table
         gameTableView.rowHeight = 130.0
         gameTableView.reloadData()
-
-
-        // REMOVE..... before submitting!!!!!!!!
-        // Needed for DEBUG REMOVE AFTER TESTING 30 DAY DELETE
-        let fetchedRounds = fetchedResultsControllerRound.fetchedObjects as! [RoundScore]
-        print("fetchedRounds.count: \(fetchedRounds.count)")
-
-        // USED ONLY FOR DEBUG
-        // Fetch all the rounds for all games. Used to Calculate the team scores for the table view.
-        do {
-            try fetchedResultsControllerScoreElement .performFetch()
-        } catch {}
-
-        // Set the fetchedResultsController.delegate = self
-        fetchedResultsControllerRound.delegate = self
-
-        let fetchedScoreElements = fetchedResultsControllerScoreElement.fetchedObjects as! [RoundScore]
-        print("fetchedScoreElements.count: \(fetchedScoreElements.count)")
-
-        // REMOVE..... before submitting!!!!!!!!
     }
+
+
 
     override func viewDidAppear(animated: Bool) {
 
-        // If app is first opened, check for a last started game. If found, skip table and go directly to summary
+        // If app is first opened, check for a last started game. If found and is active, skip table and go directly to summary
         if firstTimeSwitch == true {
             let defaults = NSUserDefaults.standardUserDefaults()
             let savedID = defaults.objectForKey("lastStartedGameId") as? String
@@ -74,6 +66,22 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
             firstTimeSwitch = false
             if let savedIDFound = savedID {
                  checkForActiveGame(savedIDFound)
+            }
+        }
+
+        // Enable/Disable Leaderboard upload if connected to database and there are games to upload
+        // Check if connected to database
+        uploadToLeaderboard.enabled = false
+        let isConnectionReturnCode = CloudKitClient.sharedInstance().isConnectedToNetwork()
+
+        if isConnectionReturnCode == true {
+
+            // Check if any games are ready to upload
+            for fetchedGame in fetchedResultsControllerGame.fetchedObjects as! [Game]  {
+                if fetchedGame.lastCompletedRound == 4 && fetchedGame.uploadedToLeaderboard == false {
+                    uploadToLeaderboard.enabled = true
+                    break
+                }
             }
         }
     }
@@ -102,6 +110,7 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     }
 
 
+
     // Check for loaded profiles and load if not found
     func checkForLoadedProfiles() {
 
@@ -125,31 +134,35 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     // Delete games over 30 days old.
     func deleteGamesOver30DaysOld() {
 
+        // Calculate date > 30 days in past
         let currentDate = NSDate()
         let dateComponents = NSDateComponents()
         dateComponents.day = -30
         let date30DaysPast = NSCalendar.currentCalendar().dateByAddingComponents(dateComponents, toDate: currentDate, options: NSCalendarOptions(rawValue: 0))
 
+        // loop through the games and compare their dates with the 30 days in past.  If older, then delete the game. 
+        // Note: rounds, score elements will also be deleted by core data
         var fetchedGameIndex = 0
         for fetchedGame in fetchedResultsControllerGame.fetchedObjects! {
 
             if fetchedGame.date != nil {
-               // let order = NSCalendar.currentCalendar().compareDate(date30DaysPast!, toDate:date30DaysPast!, toUnitGranularity: .Day)
 
+                // Compare the dates
                 let dateCompareResult =  SharedFunctions.sharedInstance().compareDates(date30DaysPast!, toDate: fetchedGame.date!, granularity: .Day)
 
                 if  dateCompareResult == "<" {
+
                     // Older than 30 days deleted
                     // Delete the Game, Rounds and Score Elements
-
                     let gameManagedObject = self.fetchedResultsControllerGame.fetchedObjects![fetchedGameIndex] as! NSManagedObject
                     self.sharedContext.deleteObject(gameManagedObject)
                 }
             }
-            ++fetchedGameIndex
+            fetchedGameIndex += 1
         }
         CoreDataStackManager.sharedInstance().saveContext()
     }
+
 
 
 
@@ -168,6 +181,72 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
 
 
+    // Upload to Leaderboard
+    @IBAction func uploadToLeaderBoardAction(sender: AnyObject) {
+
+        uploadToLeaderboard.enabled = false
+        uploadActivityIndicator.startAnimating()
+
+        // Check if connected to database
+        let isConnectionReturnCode = CloudKitClient.sharedInstance().isConnectedToNetwork()
+
+        if isConnectionReturnCode == false {
+            uploadActivityIndicator.stopAnimating()
+            presentAlert("The Internet connection appears to be offline.", includeOK: true )
+        } else {
+
+            // Connected to data base.  Loop through all the games to see if any are ready to be uploaded (completed and not previously uploaded)
+            var gamesToBeUploaded: [Game] = []
+            for game in fetchedResultsControllerGame.fetchedObjects as! [Game] {
+
+                if game.lastCompletedRound == 4 && game.uploadedToLeaderboard == false {
+                    gamesToBeUploaded.append(game)
+                }
+            }
+
+            // If games that need to be uploaded are found, send the list to cloudkit routines to update
+            if gamesToBeUploaded.count > 0 {
+                CloudKitClient.sharedInstance().updateLeaderboard(gamesToBeUploaded, roundsToUploadArray: fetchedResultsControllerRound.fetchedObjects as! [RoundScore], scoreElementsArray: fetchedResultsControllerScoreElement.fetchedObjects as! [ScoreElement] )  { updateErrorString  in
+
+                    if updateErrorString == nil {
+
+                        // The records were uploaded to the leader board, now must loop through the games and set the indicator that they were uploaded
+                        dispatch_async(dispatch_get_main_queue(), {
+
+                            var indexNumber = 0
+                            for game in self.fetchedResultsControllerGame.fetchedObjects as! [Game] {
+
+                                if game.lastCompletedRound == 4 && game.uploadedToLeaderboard == false {
+                                        let gameManagedObject = self.fetchedResultsControllerGame.fetchedObjects![indexNumber] as! Game
+
+                                         gameManagedObject.setValue(true, forKey: "uploadedToLeaderboard")
+
+                                        // Save the changes
+                                        CoreDataStackManager.sharedInstance().saveContext()
+                                }
+                                indexNumber += 1
+                            }
+
+                            // Turn off the cloud icon and stop the animation.
+                            self.uploadToLeaderboard.enabled = false
+                            self.uploadActivityIndicator.stopAnimating()
+                        })
+                    } else {
+
+                        // An error occurred, enable the cloud again, stop the activity ind, and present the alert with message
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.uploadToLeaderboard.enabled = true
+                            self.uploadActivityIndicator.stopAnimating()
+                            self.presentAlert(updateErrorString!, includeOK: true )
+                        })
+                    }
+                }
+            }
+        }
+    }
+
+
+
 
     // ***** TABLE MANAGEMENT  **** //
 
@@ -179,21 +258,32 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
         return sectionInfo.numberOfObjects
     }
 
+
     // Number of sections, there is a section for each day
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return fetchedResultsControllerGame.sections!.count
     }
+
 
     // Set the title of the section. It is stored with the game and is formatted when a game is added
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
         if let sections = fetchedResultsControllerGame.sections {
 
-            let currentSection = sections[section]  
-            return currentSection.name
+            let currentSection = sections[section]
+            let name = currentSection.name
+
+            // The section title includes the date at the beginning, so it must be bypassed.
+            let indexStart = name.startIndex.advancedBy(10)
+            let indexEnd = name.endIndex.advancedBy(0)
+            let range = indexStart..<indexEnd
+            let nameString = name.substringWithRange(range)
+
+            return nameString
         }
         return " "
     }
+
 
     // Change the section header background and font colors
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -204,7 +294,7 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     }
 
 
-    // Load the images and text into the table
+    // Load the images and text into the cell for each game.
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell  {
 
         // Using a custom cell
@@ -226,18 +316,16 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
             cell.team3Info!.text = " "
         }
 
-
         // Set the game completed status image and set the background colors based on the status of the 
-        // game.  Note the background color will be overriden if the game was started on a previous day
+        // game.
+        let imageName = statusIconArray[Int(fetchedGame.lastCompletedRound)]
+        cell.gameStatus.image = UIImage(named: imageName)
 
         // Default table background colors (both normaland selected
         let backgroundView = UIView()
         backgroundView.backgroundColor = Style.sharedInstance().tableBackgroundColor()
 
         cell.backgroundColor = Style.sharedInstance().tableBackgroundColor()
-
-        let imageName = statusIconArray[Int(fetchedGame.lastCompletedRound)]
-        cell.gameStatus.image = UIImage(named: imageName)
 
         // If game is completed, change the color on the table
         if fetchedGame.lastCompletedRound == 4 {
@@ -247,16 +335,13 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
         }
 
         // Check if game is in past. If so change the color to a dark disabled color
-
-
-        // OLDER CODE: let order = NSCalendar.currentCalendar().compareDate(NSDate(), toDate: fetchedGame.date, toUnitGranularity: .Day)
-
         let dateCompareResult =  SharedFunctions.sharedInstance().compareDates(NSDate(), toDate: fetchedGame.date, granularity: .Day)
 
         if  dateCompareResult == "<" {
             cell.backgroundColor = Style.sharedInstance().tableDisabled()
             backgroundView.backgroundColor = Style.sharedInstance().tableDisabled()
         }
+
 
         // Set the selected view to the background view color
         cell.selectedBackgroundView = backgroundView
@@ -291,17 +376,6 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     }
 
 
-    // Slide Delete Button, delete from Game table and from table view
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-
-        // Delete the Game, Rounds and Score Elements 
-        let gameManagedObject = self.fetchedResultsControllerGame.fetchedObjects![indexPath.item] as! NSManagedObject
-        self.sharedContext.deleteObject(gameManagedObject)
-
-        CoreDataStackManager.sharedInstance().saveContext()
-    }
-
-
 
 
     // Build the team Info line for the cell
@@ -330,7 +404,6 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
         //  Format the initials for the team
         var teamInfo =   teamInitial1 + " / " + teamInitial2
-
 
         // Format the meld and the game score
         // Determine last Completed Round
@@ -401,8 +474,8 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     }
 
 
-    
- 
+
+
  // ***** CORE DATA  MANAGEMENT  **** //
 
 
@@ -413,8 +486,6 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
         do {
             try fetchedResultsControllerGame.performFetch()
         } catch {}
-
-        // Set the fetchedresult Delegate
         fetchedResultsControllerGame.delegate = self
 
 
@@ -422,10 +493,17 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
         do {
             try fetchedResultsControllerRound .performFetch()
         } catch {}
-
-       // Set the fetchedresult Delegate
         fetchedResultsControllerRound.delegate = self
+
+
+        // Fetch all the score elements for all games. Used to determine winner of rounds
+        do {
+            try fetchedResultsControllerScoreElement .performFetch()
+        } catch {}
+        fetchedResultsControllerScoreElement.delegate = self
     }
+
+
 
     // Shared Context Helper
     var sharedContext: NSManagedObjectContext {
@@ -455,7 +533,7 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
         // Sort by gameProfileId
         let sectionDateSort = NSSortDescriptor(key: "sectionDate", ascending: false)
         let dateSort = NSSortDescriptor(key: "date", ascending: false)
-        fetchRequest.sortDescriptors = [sectionDateSort, dateSort]
+        fetchRequest.sortDescriptors = [ sectionDateSort, dateSort]
 
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: "sectionDate", cacheName: nil)
 
@@ -478,12 +556,12 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
     }()
 
 
-    // Fetch all score Elements (!!!!!!USED FOR DEBUG ONLY!!!!!)
+    // Fetch all score elements
     lazy var fetchedResultsControllerScoreElement: NSFetchedResultsController = {
 
         let fetchRequest = NSFetchRequest(entityName: "ScoreElement")
 
-        // Sort by roundNumber 1-4
+        // Sort by element number
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "elementNumber", ascending: false)]
 
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -504,32 +582,28 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
 
         switch type {
 
-        // Insert a new section (new day)
         case .Insert:
-            print(".insertGameSection ")
-
             gameTableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
             break
 
-        // Delete a section
         case .Delete:
-            print(".deleteGameSection")
                  gameTableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
             break
 
         case .Update:
             break
 
-        // Move
         case .Move:
             break
         }
     }
-    
+
 
     // Called when core data is modified for the game
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType,newIndexPath: NSIndexPath?) {
-        let objectName = anObject.entity.name
+
+        guard let managedObject = anObject as? NSManagedObject else { fatalError() }
+            let objectName = managedObject.entity.name
 
         switch type {
 
@@ -543,18 +617,10 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
             if objectName == "Game"  {
                 gameTableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
             }
-            if objectName == "RoundScore" {
-                print("roundscoreDeleted")
-            }
-            if objectName == "ScoreElement" {
-                print("ScoreElementDeleted")
-            }
             break
-
 
         case .Update:
             if objectName == "Game"  {
-
                 gameTableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
             }
             break
@@ -563,10 +629,33 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
             break
         }
     }
-    
+
+
     // Called when all updates are done
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         gameTableView.endUpdates()
+    }
+
+
+
+
+    // ***** ALERT MANAGEMENT  **** //
+
+    func presentAlert(alertMessage: String,   includeOK: Bool) {
+
+        let alert = UIAlertController(title: "Alert", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+         // Option: Logout
+        if includeOK {
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
+                action in
+
+            }))
+        }
+
+        // Present the Alert!
+        dispatch_async(dispatch_get_main_queue(), {
+            self.presentViewController(alert, animated: true, completion: nil)
+        })
     }
 
 }

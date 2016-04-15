@@ -13,17 +13,8 @@ class GameTableCell: UITableViewCell {
     @IBOutlet var gameDescription: UILabel?
     @IBOutlet weak var team1Info: UILabel!
     @IBOutlet weak var team2Info: UILabel!
-
     @IBOutlet weak var separator: UILabel!
     @IBOutlet weak var team3Info: UILabel!
      @IBOutlet weak var gameStatus: UIImageView!
 
-/***   override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        let view = UIView()
-        view.backgroundColor = Style.sharedInstance().tableBackgroundColor()
-        selectedBackgroundView = view
-    }  ***/
 }
-

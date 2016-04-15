@@ -10,6 +10,7 @@ import UIKit
 
 class CardCountViewController: UIViewController {
 
+    // Card Count Delegate
     var delegate: CardCountViewControllerDelegate?
 
     // Passed from RoundScore View Controller
@@ -21,6 +22,7 @@ class CardCountViewController: UIViewController {
     var newCardCount: Int = 0
     var newSubtractCount: Int = 0
 
+    // Outlets
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var cardCountSegmentControl: UIStackView!
     @IBOutlet weak var subtractCountSegmentControl: UIStackView!
@@ -44,7 +46,7 @@ class CardCountViewController: UIViewController {
         sf.setLabel (view.viewWithTag(91) as? UILabel, imageTextString: sf.formatScore(originalCardCount), backgroundColor: UIColor.whiteColor())
 
         // Set the original subtract count for the view
-        sf.setLabel ( view.viewWithTag(92) as? UILabel, imageTextString: sf.formatScore(originalSubtractCount), backgroundColor: UIColor.whiteColor())
+        sf.setLabel (view.viewWithTag(92) as? UILabel, imageTextString: sf.formatScore(originalSubtractCount), backgroundColor: UIColor.whiteColor())
 
         // Initialize the card count so we can adjust it
         newCardCount = originalCardCount
@@ -70,8 +72,15 @@ class CardCountViewController: UIViewController {
     // Called when either a subtract or a card count was selected 
     @IBAction func cardCountThousandAction(sender: UISegmentedControl) {
 
+        // The tag ID matches the number selected +1 to accomodate the index of 0
         let tagID = sender.tag
-        let numberChosen = sender.selectedSegmentIndex
+        var numberChosen = sender.selectedSegmentIndex + 1
+
+        // Moved 0 to end because the focus group wanted it there, have to switch the number
+        if numberChosen == 10 {
+            numberChosen = 0
+        }
+
 
         // If a number was chosen 0-9, then add to the count and update the control
         if numberChosen <= 9 {
@@ -84,14 +93,13 @@ class CardCountViewController: UIViewController {
                 var cardCountTemp = String(newCardCount)
                 cardCountTemp = cardCountTemp + String(numberChosen)
 
-                // Check if exceded total
+                // Check if exceded total length
                 if cardCountTemp.characters.count < 5 {
 
                     newCardCount = Int(cardCountTemp)!
                     sf.setLabel(view.viewWithTag(91) as? UILabel, imageTextString: sf.formatScore(newCardCount), backgroundColor: UIColor.whiteColor())
                 }
             } else {
-
                 // Tag 2, working with Subtract Count
 
                 // Add the digit to the number
@@ -104,14 +112,13 @@ class CardCountViewController: UIViewController {
                     newSubtractCount = Int(cardCountTemp)!
 
                     sf.setLabel(view.viewWithTag(92) as? UILabel, imageTextString: sf.formatScore(newSubtractCount * -1), backgroundColor: UIColor.whiteColor())
-
                 }
             }
         } else {
 
             // 11 Working with backspace
 
-            // If tag == 1, then working with the card count
+            // If tag == 11, then working with the card count backspace
             // else working with the subtract count
             if tagID == 1 {
 
@@ -136,7 +143,7 @@ class CardCountViewController: UIViewController {
 
             } else {
 
-                // Tag 2, working with Subtract Count
+                // Tag 12, working with Subtract Count backspa
                 // Remove the last digit
                 let cardCountTemp = String(newSubtractCount)
                 var cardCountTemp2 = " "
@@ -153,19 +160,18 @@ class CardCountViewController: UIViewController {
 
                 newSubtractCount = Int(cardCountTemp2)!
                 sf.setLabel(view.viewWithTag(92) as? UILabel , imageTextString: sf.formatScore(newSubtractCount * -1), backgroundColor: UIColor.whiteColor())
-
             }
         }
 
         self.delegate!.updateCardCounts(self, cardCount: newCardCount, subtractCount: (newSubtractCount * -1))
     }
 
+
 }
 
 
 
-// Needed so that the location and coordinates can be sent back to the Add information
+// Needed so that both card counts can be sent back to the roundscore vc
 protocol CardCountViewControllerDelegate {
     func updateCardCounts(controller: CardCountViewController, cardCount: Int, subtractCount: Int)
 }
-

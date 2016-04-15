@@ -17,8 +17,7 @@ class Player: NSManagedObject {
         static let emailAddress = "emailAddress"
         static let phoneNumber = "phoneNumber"
         static let pictureFileName = "pictureFileName"
-
-        // TODO:   Add elements for game center
+        static let groupID = "groupID"
     }
 
     @NSManaged var name: String
@@ -26,7 +25,7 @@ class Player: NSManagedObject {
     @NSManaged var emailAddress: String?
     @NSManaged var phoneNumber: NSNumber?
     @NSManaged var pictureFileName: String!
-
+    @NSManaged var groupID: String!
 
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -38,11 +37,13 @@ class Player: NSManagedObject {
         let entity =  NSEntityDescription.entityForName("Player", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
 
-        // Initialize the data elements for the Pin
+        // Initialize the data elements for the Player
         name = dictionary[Keys.name] as! String
         initials = dictionary[Keys.initials] as! String
         emailAddress = dictionary[Keys.emailAddress] as? String
         phoneNumber = dictionary[Keys.phoneNumber] as? NSNumber
         pictureFileName = dictionary[Keys.pictureFileName] as! String
+        groupID = dictionary[Keys.groupID] as! String
      }
+
 }

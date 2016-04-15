@@ -6,16 +6,16 @@
 //  Copyright © 2016 Jeanne Nicole Byers. All rights reserved.
 //
 
-
 import UIKit
 import CoreData
-
 
 
 class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
 
 
+    // Initial profile load.  Loads 4 games with their rules and 6 guest players
 
+    // Four (4) games
     var gameArray = [
         [
             ProfileGame.Keys.gameProfileId : "HNFThreshhold",
@@ -32,7 +32,6 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             ProfileGame.Keys.meld4Threshold : 50000,
             ProfileGame.Keys.profileScoreElementId : "HNF"
         ],
-
         [
             ProfileGame.Keys.gameProfileId : "HNFStatic",
             ProfileGame.Keys.gameDescription : "Hand, Knee & Foot (Set Meld)",
@@ -82,9 +81,8 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
 
 
 
-
+    // Scoring elements, two types HNF (hand, knee and foot) and H&F (hand and Foot)
     let scoreElementsArray =  [
-
         [
             ProfileScoreElement.Keys.gameProfileId : "HNF",
             ProfileScoreElement.Keys.elementNumber : 0,
@@ -107,7 +105,6 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             ProfileScoreElement.Keys.requiredNumber : 1,
             ProfileScoreElement.Keys.winNumber : 1
         ],
-
         [
             ProfileScoreElement.Keys.gameProfileId : "HNF",
             ProfileScoreElement.Keys.elementNumber : 2,
@@ -152,7 +149,6 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             ProfileScoreElement.Keys.requiredNumber : 1,
             ProfileScoreElement.Keys.winNumber : 1
         ],
-
         [
             ProfileScoreElement.Keys.gameProfileId : "HNF",
             ProfileScoreElement.Keys.elementNumber : 6,
@@ -219,7 +215,6 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             ProfileScoreElement.Keys.requiredNumber : 0,
             ProfileScoreElement.Keys.winNumber : 0
         ],
-
         [
             ProfileScoreElement.Keys.gameProfileId : "H&F",
             ProfileScoreElement.Keys.elementNumber : 0,
@@ -240,7 +235,7 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             ProfileScoreElement.Keys.pointValue : 500,
             ProfileScoreElement.Keys.defaultNumber : 0,
             ProfileScoreElement.Keys.requiredNumber : 0,
-            ProfileScoreElement.Keys.winNumber : 1
+            ProfileScoreElement.Keys.winNumber : 0
         ],
         [
             ProfileScoreElement.Keys.gameProfileId : "H&F",
@@ -251,7 +246,7 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             ProfileScoreElement.Keys.pointValue : 300,
             ProfileScoreElement.Keys.defaultNumber : 0,
             ProfileScoreElement.Keys.requiredNumber : 0,
-            ProfileScoreElement.Keys.winNumber : 1
+            ProfileScoreElement.Keys.winNumber : 0
         ],
         [
             ProfileScoreElement.Keys.gameProfileId : "H&F",
@@ -275,51 +270,59 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             ProfileScoreElement.Keys.requiredNumber : 0,
             ProfileScoreElement.Keys.winNumber : 0
         ]
-
     ]
 
-     let playersArray =  [
 
+    // Six (6) guest players so the app can be used quickly
+     let playersArray =  [
         [
             Player.Keys.name : "GuestA",
             Player.Keys.initials : "GSA",
             Player.Keys.phoneNumber: "9999999999",
-            Player.Keys.pictureFileName : "iconHeart"
+            Player.Keys.pictureFileName : "iconHeart",
+            Player.Keys.groupID : "Guests"
         ],
         [
             Player.Keys.name : "GuestB",
             Player.Keys.initials : "GSB",
             Player.Keys.phoneNumber : "9999999999",
-            Player.Keys.pictureFileName : "iconClub"
+            Player.Keys.pictureFileName : "iconClub",
+            Player.Keys.groupID : "Guests"
+
         ],
         [
             Player.Keys.name : "GuestC",
             Player.Keys.initials : "GSC",
             Player.Keys.phoneNumber : "9999999999",
-            Player.Keys.pictureFileName : "iconSpade"
+            Player.Keys.pictureFileName : "iconSpade",
+            Player.Keys.groupID : "Guests"
+
         ],
         [
             Player.Keys.name : "GuestD",
             Player.Keys.initials : "GSD",
             Player.Keys.phoneNumber : "9999999999",
-            Player.Keys.pictureFileName : "iconDiamond"
+            Player.Keys.pictureFileName : "iconDiamond",
+            Player.Keys.groupID : "Guests"
+
         ],
         [
             Player.Keys.name : "GuestE",
             Player.Keys.initials : "GSE",
             Player.Keys.phoneNumber : "9999999999",
-            Player.Keys.pictureFileName : "iconSpade2"
+            Player.Keys.pictureFileName : "iconSpade2",
+            Player.Keys.groupID : "Guests"
+
         ],
         [
             Player.Keys.name : "GuestF",
             Player.Keys.initials : "GSF",
             Player.Keys.phoneNumber : "9999999999",
-            Player.Keys.pictureFileName : "iconClub2"
+            Player.Keys.pictureFileName : "iconClub2",
+            Player.Keys.groupID : "Guests"
         ]
-
-
-
     ]
+
 
     // Load the Game and Score Element profiles for Hand and Foot Game Variations
     func initialLoadOfProfiles() {
@@ -329,15 +332,13 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
             // Load the Games
             for dictionary in self.gameArray {
                 let _ = ProfileGame(dictionary: dictionary, context: self.sharedContext)
-                ++elementIDCounter
+                elementIDCounter += 1
             }
-
 
             // load the scoring elements
             for dictionary in self.scoreElementsArray {
                 let _ = ProfileScoreElement(dictionary: dictionary, context: self.sharedContext)
             }
-
 
             // Load 6 guests
             for dictionary in self.playersArray {
@@ -346,9 +347,7 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
 
             // Save the changes
             CoreDataStackManager.sharedInstance().saveContext()
-
         })
-
     }
 
 
@@ -365,28 +364,7 @@ class LoadProfiles: NSObject, NSFetchedResultsControllerDelegate {
         return Singleton.sharedInstance
     }
 
-
-
- }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 

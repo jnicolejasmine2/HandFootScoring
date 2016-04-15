@@ -20,13 +20,11 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
     private let textDelegate = TextFieldDelegate()
     var allTextFields: [UITextField]!
 
-      // Image Controls along with variable to support selecting an image
+    // Image Controls along with variable to support selecting an image
     @IBOutlet weak var playerImage: UIImageView!
-
     @IBOutlet weak var albumButton: UIBarButtonItem!
     @IBOutlet weak var iconButton: UIBarButtonItem!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
-    @IBOutlet weak var deleteButton: UIBarButtonItem!
 
     var playerFileName: String?
     private var imagePicker = UIImagePickerController()
@@ -40,15 +38,16 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
     // Fetched Player Profiles
     var fetchedPlayers: [Player] = []
 
-    var selectedPlayer: Player?
 
+    // Shared Functions ShortCode
+    let sf = SharedFunctions.sharedInstance()
 
 
     // ***** VIEW CONTROLLER MANAGEMENT  **** //
 
     override func viewDidLoad() {
         super.viewDidLoad()
- 
+
         // Set up to dismiss the keyboards when tapped outside
         allTextFields = [playerName, playerInitials, playerEmail, playerPhone]
 
@@ -58,23 +57,16 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
         playerEmail.delegate = textDelegate
         playerPhone.delegate = textDelegate
 
-
         // Set the control colors
         updateProfileButton.backgroundColor = Style.sharedInstance().keyButtonControl()
         cancelButton.tintColor = Style.sharedInstance().keyButtonControl()
         cameraButton.tintColor = Style.sharedInstance().keyButtonControl()
         albumButton.tintColor = Style.sharedInstance().keyButtonControl()
         iconButton.tintColor = Style.sharedInstance().keyButtonControl()
-         deleteButton.tintColor = Style.sharedInstance().keyButtonControl()
 
         // Dismiss keyboards
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissKeyboardFromView"))
-
-        // Set the verbiage for the add/update 
-        if selectedPlayer == nil {
-            updateProfileButton.setTitle("Add Player", forState: UIControlState.Normal )
-        }
-    }
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PlayerProfileViewController.dismissKeyboardFromView)))
+     }
 
 
     override func viewWillAppear(animated: Bool) {
@@ -82,8 +74,8 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
 
         // Enable camera button if the phone has a camera
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable( UIImagePickerControllerSourceType.Camera)
-
     }
+
 
     func dismissKeyboardFromView() {
         for textField in allTextFields {
@@ -93,6 +85,8 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
 
 
     // ***** BUTTON MANAGEMENT  **** //
+
+    // Cancel was chosen
     @IBAction func cancelButtonAction(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -110,11 +104,10 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
     }
 
 
-
     // Touching icon rotates through icons
     @IBAction func iconButtonAction(sender: AnyObject) {
 
-        ++lastIconNumber
+        lastIconNumber += 1
 
         if lastIconNumber > 9 {
             lastIconNumber = 1
@@ -128,7 +121,7 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
     }
 
 
-    // Add or Update the player ( FOR NOW ONLY DOING AN INSERT....................!!! NEED TO FINISH WITH PROFILE MANAGEMENT)
+    // Add the player
     @IBAction func updateButtonAction(sender: AnyObject) {
 
         var missingElementNumber = 0
@@ -138,7 +131,7 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
         if playerName.text == "" || playerName.text == " " {
 
             errorMessage = errorMessage + "Name"
-            ++missingElementNumber
+            missingElementNumber += 1
 
         } else {
 
@@ -160,7 +153,7 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
                 errorMessage = errorMessage + ", "
             }
             errorMessage = errorMessage + "Initials"
-            ++missingElementNumber
+            missingElementNumber += 1
 
         }else {
 
@@ -174,7 +167,6 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
             }
         }
 
-
         // Check if a photo/Icon was selected. If not prepare an edit message for the alert.
         if playerFileName == nil {
 
@@ -182,8 +174,7 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
                 errorMessage = errorMessage + ", "
             }
             errorMessage = errorMessage + "Photo/Icon"
-            ++missingElementNumber
-
+            missingElementNumber += 1
         }
 
        // Check if a required element is missing. Adjust the message and present the alert
@@ -192,18 +183,19 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
             errorMessage = errorMessage + " is required."
             self.presentAlert(errorMessage, includeOK: true )
 
-        } else   if missingElementNumber > 1 {
+        } else if missingElementNumber > 1 {
 
             errorMessage = errorMessage + " are required."
             self.presentAlert(errorMessage, includeOK: true )
 
         } else {
 
-            // Passed the Edits, insert/update the player  (FOR NOW ONLY DO AN INSERT !!!!!!!!!!!)
+            // Passed the Edits, insert
             var dictionary: [String : AnyObject] = [
 
                 Player.Keys.name : playerName.text!,
-                Player.Keys.initials : playerInitials.text!
+                Player.Keys.initials : playerInitials.text!,
+                Player.Keys.groupID : "Laguna Woods"
             ]
 
             if playerEmail !=  nil {
@@ -217,16 +209,12 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
             if playerFileName !=  nil {
                 dictionary[Player.Keys.pictureFileName] =  playerFileName!
             }
-            
+
             let _ = Player(dictionary: dictionary, context: self.sharedContext)
             CoreDataStackManager.sharedInstance().saveContext()
 
             dismissViewControllerAnimated(true, completion: nil)
         }
-    }
-
-    // Delete the Player  --- TO BE DEVELOPED
-    @IBAction func deletePlayer(sender: AnyObject) {
     }
 
 
@@ -261,27 +249,10 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
         let playerImageData = UIImagePNGRepresentation(playerImage.image!)
 
         // Save image in documents folder
-        if let fileURL = self.imageFileURL(filename!).path {
+        if let fileURL = sf.imageFileURL(filename!).path {
             NSFileManager.defaultManager().createFileAtPath(fileURL, contents: playerImageData,   attributes:nil)
         }
 
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-
-
-    // Get access to the documents folder and add the photo file name
-    func imageFileURL(fileName: String) ->  NSURL {
-
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-
-        let pathArray = [dirPath, fileName]
-        let fileURL =  NSURL.fileURLWithPathComponents(pathArray)!
-        return fileURL
-    }
-
-
-    // Image was not selected or taken
-    func imagePickerControllerDidCancel(_: UIImagePickerController){
         dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -293,9 +264,9 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
-    
 
-    
+
+
     // ***** ALERT MANAGEMENT  **** //
 
     func presentAlert(alertMessage: String, includeOK: Bool ) {
@@ -318,8 +289,6 @@ class PlayerProfileViewController: UIViewController, UIImagePickerControllerDele
             self.presentViewController(alert, animated: true, completion: nil)
         })
     }
-    
-
 
 
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820C05091CBA1156006DBD7F /* LeaderboardCustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820C05081CBA1156006DBD7F /* LeaderboardCustomHeader.swift */; };
 		821245D81C9119CB002A4230 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821245D71C9119CB002A4230 /* Style.swift */; };
 		8267A8A31C77B55800F8AAD0 /* NewGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267A8A21C77B55800F8AAD0 /* NewGameViewController.swift */; };
 		8267A8A51C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267A8A41C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift */; };
@@ -33,9 +34,12 @@
 		829386421C7E7D4000BF3ADD /* GameTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829386411C7E7D4000BF3ADD /* GameTableCell.swift */; };
 		829386441C80E36200BF3ADD /* RoundScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829386431C80E36200BF3ADD /* RoundScoreViewController.swift */; };
 		829386461C87D51D00BF3ADD /* CardCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829386451C87D51D00BF3ADD /* CardCountViewController.swift */; };
+		8296EF011CAF2CC300FBA554 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8296EF001CAF2CC300FBA554 /* CloudKit.framework */; };
+		8296EF031CAF39D400FBA554 /* CloudKitClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8296EF021CAF39D400FBA554 /* CloudKitClient.swift */; };
+		8296EF051CB8595000FBA554 /* LeaderboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8296EF041CB8594F00FBA554 /* LeaderboardTableViewController.swift */; };
+		8296EF071CB868FF00FBA554 /* LeaderboardTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8296EF061CB868FF00FBA554 /* LeaderboardTableCell.swift */; };
 		82B578CE1C96622D0066BBD4 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B578CD1C96622D0066BBD4 /* ADVSegmentedControl.swift */; };
 		82B578D01C974F5D0066BBD4 /* SharedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B578CF1C974F5D0066BBD4 /* SharedFunctions.swift */; };
-		82B578D21C9762CD0066BBD4 /* ChangePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B578D11C9762CD0066BBD4 /* ChangePlayersViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		820C05081CBA1156006DBD7F /* LeaderboardCustomHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardCustomHeader.swift; sourceTree = "<group>"; };
 		821245D71C9119CB002A4230 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		8267A8A21C77B55800F8AAD0 /* NewGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameViewController.swift; sourceTree = "<group>"; };
 		8267A8A41C77CE4D00F8AAD0 /* TeamPlayerCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamPlayerCollectionViewController.swift; sourceTree = "<group>"; };
@@ -88,9 +93,13 @@
 		829386411C7E7D4000BF3ADD /* GameTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableCell.swift; sourceTree = "<group>"; };
 		829386431C80E36200BF3ADD /* RoundScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundScoreViewController.swift; sourceTree = "<group>"; };
 		829386451C87D51D00BF3ADD /* CardCountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCountViewController.swift; sourceTree = "<group>"; };
+		8296EF001CAF2CC300FBA554 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		8296EF021CAF39D400FBA554 /* CloudKitClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitClient.swift; sourceTree = "<group>"; };
+		8296EF041CB8594F00FBA554 /* LeaderboardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewController.swift; sourceTree = "<group>"; };
+		8296EF061CB868FF00FBA554 /* LeaderboardTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardTableCell.swift; sourceTree = "<group>"; };
 		82B578CD1C96622D0066BBD4 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		82B578CF1C974F5D0066BBD4 /* SharedFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedFunctions.swift; sourceTree = "<group>"; };
-		82B578D11C9762CD0066BBD4 /* ChangePlayersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePlayersViewController.swift; sourceTree = "<group>"; };
+		82DE505B1CAF21FF0010DC21 /* HandFootScoring.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HandFootScoring.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8296EF011CAF2CC300FBA554 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +131,7 @@
 		826D81961C76A2D30067FBCA = {
 			isa = PBXGroup;
 			children = (
+				8296EF001CAF2CC300FBA554 /* CloudKit.framework */,
 				826D81A11C76A2D30067FBCA /* HandFootScoring */,
 				826D81B91C76A2D30067FBCA /* HandFootScoringTests */,
 				826D81C41C76A2D30067FBCA /* HandFootScoringUITests */,
@@ -141,6 +152,7 @@
 		826D81A11C76A2D30067FBCA /* HandFootScoring */ = {
 			isa = PBXGroup;
 			children = (
+				82DE505B1CAF21FF0010DC21 /* HandFootScoring.entitlements */,
 				82B578D31C9946DD0066BBD4 /* Table Collection Cells */,
 				826D81A91C76A2D30067FBCA /* HandFootScoring.xcdatamodeld */,
 				826D81D61C76ABEB0067FBCA /* Model */,
@@ -185,7 +197,8 @@
 				828EE7AB1C8A0EAE003D81AF /* TextFieldDelegate.swift */,
 				82B578CD1C96622D0066BBD4 /* ADVSegmentedControl.swift */,
 				82B578CF1C974F5D0066BBD4 /* SharedFunctions.swift */,
-				82B578D11C9762CD0066BBD4 /* ChangePlayersViewController.swift */,
+				8296EF021CAF39D400FBA554 /* CloudKitClient.swift */,
+				8296EF041CB8594F00FBA554 /* LeaderboardTableViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -210,7 +223,9 @@
 			isa = PBXGroup;
 			children = (
 				829386411C7E7D4000BF3ADD /* GameTableCell.swift */,
+				8296EF061CB868FF00FBA554 /* LeaderboardTableCell.swift */,
 				8267A8A61C77CF0400F8AAD0 /* PlayerCollectionCell.swift */,
+				820C05081CBA1156006DBD7F /* LeaderboardCustomHeader.swift */,
 			);
 			name = "Table Collection Cells";
 			sourceTree = "<group>";
@@ -283,6 +298,12 @@
 				TargetAttributes = {
 					826D819E1C76A2D30067FBCA = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = Y3W5Y253U4;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					826D81B51C76A2D30067FBCA = {
 						CreatedOnToolsVersion = 7.2;
@@ -347,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				829386421C7E7D4000BF3ADD /* GameTableCell.swift in Sources */,
+				820C05091CBA1156006DBD7F /* LeaderboardCustomHeader.swift in Sources */,
 				826D81A51C76A2D30067FBCA /* GameTableViewController.swift in Sources */,
 				826D81D81C76AC080067FBCA /* Game.swift in Sources */,
 				826D81D41C76A6D40067FBCA /* GameSummaryViewController.swift in Sources */,
@@ -361,10 +383,12 @@
 				826D81AB1C76A2D30067FBCA /* HandFootScoring.xcdatamodeld in Sources */,
 				826D81E21C76BC760067FBCA /* Player.swift in Sources */,
 				826D81E01C76B8F00067FBCA /* ProfileGame.swift in Sources */,
-				82B578D21C9762CD0066BBD4 /* ChangePlayersViewController.swift in Sources */,
 				826D81DC1C76B63D0067FBCA /* ScoreElement.swift in Sources */,
+				8296EF071CB868FF00FBA554 /* LeaderboardTableCell.swift in Sources */,
 				826D81A31C76A2D30067FBCA /* AppDelegate.swift in Sources */,
 				826D81E41C76C67C0067FBCA /* LoadProfiles.swift in Sources */,
+				8296EF051CB8595000FBA554 /* LeaderboardTableViewController.swift in Sources */,
+				8296EF031CAF39D400FBA554 /* CloudKitClient.swift in Sources */,
 				829386441C80E36200BF3ADD /* RoundScoreViewController.swift in Sources */,
 				8267A8A71C77CF0400F8AAD0 /* PlayerCollectionCell.swift in Sources */,
 				828EE7AC1C8A0EAE003D81AF /* TextFieldDelegate.swift in Sources */,
@@ -444,6 +468,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -488,6 +513,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -509,10 +535,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HandFootScoring/HandFootScoring.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HandFootScoring/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.com.askamedicalbiller.com.HandFootScoring;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -520,10 +550,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HandFootScoring/HandFootScoring.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HandFootScoring/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.com.askamedicalbiller.com.HandFootScoring;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

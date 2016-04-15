@@ -14,9 +14,9 @@ class Style {
     let blue = "#3f85eb"
     let yellow = "#fbb548"
     let red = "#fb4848"
-     let grey = "#bbbbbb"
+    let grey = "#bbbbbb"
 
-
+    // Team Button Colors
     func team1ButtonBackgroundColor() -> UIColor {
         let color = colorWithHexString(red).colorWithAlphaComponent(0.15)
         return color
@@ -24,22 +24,26 @@ class Style {
 
     func team2ButtonBackgroundColor() -> UIColor {
         let color = colorWithHexString(blue).colorWithAlphaComponent(0.15)
-
         return color
     }
 
     func team3ButtonBackgroundColor() -> UIColor {
         let color = colorWithHexString(yellow).colorWithAlphaComponent(0.15)
+        return color
+    }
 
+    func teamRoundDisabled() -> UIColor {
+        let color = colorWithHexString(grey).colorWithAlphaComponent(0.15)
         return color
     }
 
 
+
+    // Button Colors
     func gameSelectionControl() -> UIColor {
         let color = colorWithHexString(blue)
         return color
     }
-
 
     func keyButtonControl() -> UIColor {
         let color = colorWithHexString(blue)
@@ -51,58 +55,57 @@ class Style {
         return color
     }
 
-
     func keyButtonControlDisabled() -> UIColor {
         let color = colorWithHexString(blue).colorWithAlphaComponent(0.35)
-
         return color
     }
 
 
+    // Leader Board Colors
+    func leaderboardButtonControl() -> UIColor {
+        let color = colorWithHexString("7409b1")
+        return color
+    }
 
+    func leaderboardTableHeading() -> UIColor {
+        let color = colorWithHexString("7409b1").colorWithAlphaComponent(0.15)
+        return color
+    }
+
+
+    // Text Colors
     func textHighlightControl() -> UIColor {
         let color = colorWithHexString(blue).colorWithAlphaComponent(0.15)
-
         return color
     }
 
 
-    func teamRoundDisabled() -> UIColor {
-        let color = colorWithHexString(grey).colorWithAlphaComponent(0.15)
 
-        return color
-    }
-
-
+    // Game Table Colors
     func tableHeader() -> UIColor {
          let color = colorWithHexString(blue)
         return color
     }
 
-
     func tableDisabled() -> UIColor {
         let color = colorWithHexString(grey).colorWithAlphaComponent(0.25)
-
         return color
     }
 
     func tableCompleted() -> UIColor {
         let color = colorWithHexString(blue).colorWithAlphaComponent(0.35)
-
         return color
     }
 
 
     func tableBackgroundColor() -> UIColor {
         let color = colorWithHexString(blue).colorWithAlphaComponent(0.15)
-
         return color
     }
 
 
 
-
-
+    // Converts hex to UIColor
     func colorWithHexString (hex:String) -> UIColor {
         var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercaseString
 
@@ -123,23 +126,17 @@ class Style {
         NSScanner(string: gString).scanHexInt(&g)
         NSScanner(string: bString).scanHexInt(&b)
 
-
         return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(1))
     }
 
 
-    
 
+    // Shared Instance
     class func sharedInstance() -> Style {
         struct Singleton {
             static var sharedInstance = Style()
         }
         return Singleton.sharedInstance
     }
-    
-
 
 }
-
-
-

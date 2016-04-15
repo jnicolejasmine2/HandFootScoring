@@ -48,8 +48,7 @@ class Game: NSManagedObject {
         static let team3Player1ImageName = "team3Player1ImageName"
         static let team3Player2ImageName = "team3Player2ImageName"
 
-
-
+        static let uploadedToLeaderboard = "uploadedToLeaderboard"
         static let lastCompletedRound = "lastCompletedRound"
     }
 
@@ -91,7 +90,7 @@ class Game: NSManagedObject {
     @NSManaged var team3Player1ImageName: String?
     @NSManaged var team3Player2ImageName: String?
 
-
+    @NSManaged var uploadedToLeaderboard: Bool
 
     @NSManaged var lastCompletedRound: NSNumber
     @NSManaged var rounds: [RoundScore]
@@ -107,14 +106,14 @@ class Game: NSManagedObject {
         let entity =  NSEntityDescription.entityForName("Game", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
 
-        // Initialize the data elements for the Pin
+        // Initialize the data elements for the Game
         gameId = NSUUID().UUIDString
 
-        // Save off
+        // Save off the current game so the summary can be automatically shown.
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(gameId, forKey: "lastStartedGameId")
 
-
+        // Get the dates and set the section title
         date = NSDate()
         sectionDate = buildSectionDate(date)
 
@@ -141,14 +140,12 @@ class Game: NSManagedObject {
         team3Player1 = dictionary[Keys.team3Player1] as? String
         team3Player2 = dictionary[Keys.team3Player2] as? String
 
-
         team1Player1Initials = dictionary[Keys.team1Player1Initials] as! String
         team1Player2Initials = dictionary[Keys.team1Player2Initials] as! String
         team2Player1Initials = dictionary[Keys.team2Player1Initials] as! String
         team2Player2Initials = dictionary[Keys.team2Player2Initials] as! String
         team3Player1Initials = dictionary[Keys.team3Player1Initials] as? String
         team3Player2Initials = dictionary[Keys.team3Player2Initials] as? String
-
 
         team1Player1ImageName = dictionary[Keys.team1Player1ImageName] as! String
         team1Player2ImageName = dictionary[Keys.team1Player2ImageName] as! String
@@ -157,10 +154,11 @@ class Game: NSManagedObject {
         team3Player1ImageName = dictionary[Keys.team3Player1ImageName] as? String
         team3Player2ImageName = dictionary[Keys.team3Player2ImageName] as? String
 
+        uploadedToLeaderboard = false
         lastCompletedRound = 0
 
 
-        // Load the 4 rounds for each time, also loading the score elements (aka rules)
+        // Load the 4 rounds for each time, also loading the score elements (aka rules) for each of the rounds
         for teamNumber in 0...(numberOfTeams - 1) {
         
             for roundNumber in 0...3 {
@@ -171,7 +169,6 @@ class Game: NSManagedObject {
                     RoundScore.Keys.roundNumber : roundNumber + 1,
                     RoundScore.Keys.teamNumber : teamNumber + 1,
                     RoundScore.Keys.roundTotal : 0
-                
                 ]
                 let newRound = RoundScore(dictionary: dictionary, context: self.sharedContext, relatedGame: self)
 
@@ -200,41 +197,35 @@ class Game: NSManagedObject {
     }
 
 
-    // Get day of week name 
-
+    // Section title starts with YYYY-MM-DD, then day of week, command and MM/DD/YY 
+    // This keeps everything sorted correctly.  The YYYY-MM-DD is stripped off for the section header
     func buildSectionDate(todayDate: NSDate) -> String {
 
+        // Get the day of week
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "EEEE"
         let dayOfWeekString = dateFormatter.stringFromDate(todayDate)
 
+        // Get the calendar components
         let calendar = NSCalendar.currentCalendar()
         let components = calendar.components([.Day, .Month, .Year], fromDate: todayDate)
         let year = components.year
         let month = components.month
         let day = components.day
-        
-        let sectionDateFormatted: String = dayOfWeekString + ", " + String(month) + "/" + String(day) + "/" + String(year)
+
+        // Format the date into YMD
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let date = dateFormatter.stringFromDate(todayDate)
+
+        // Build the section title and return it
+        let sectionDateFormatted: String = date + dayOfWeekString + ", " + String(month) + "/" + String(day) + "/" + String(year)
         return sectionDateFormatted
     }
 
-
-    func getCurrentDate(todayDate: NSDate) -> String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        let dayOfWeekString = dateFormatter.stringFromDate(todayDate)
-        return dayOfWeekString
-    }
-
-    // When a photo is deleted from core data delete the corresponding document
-    override func prepareForDeletion() {
-    }
 
      // Shared Context Helper
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
 
-
 }
-

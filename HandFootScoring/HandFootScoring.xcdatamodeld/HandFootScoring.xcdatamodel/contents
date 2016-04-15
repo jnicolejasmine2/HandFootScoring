@@ -34,10 +34,12 @@
         <attribute name="team3Player2" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="team3Player2ImageName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="team3Player2Initials" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uploadedToLeaderboard" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="rounds" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RoundScore" inverseName="game" inverseEntity="RoundScore" syncable="YES"/>
     </entity>
     <entity name="Player" representedClassName=".Player" syncable="YES">
         <attribute name="emailAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="initials" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phoneNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -95,8 +97,8 @@
         <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoundScore" inverseName="scoreElements" inverseEntity="RoundScore" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Game" positionX="-54" positionY="81" width="128" height="555"/>
-        <element name="Player" positionX="-18" positionY="162" width="128" height="120"/>
+        <element name="Game" positionX="-54" positionY="81" width="128" height="570"/>
+        <element name="Player" positionX="-18" positionY="162" width="128" height="135"/>
         <element name="ProfileGame" positionX="-63" positionY="-18" width="128" height="255"/>
         <element name="ProfileScoreElement" positionX="-54" positionY="-9" width="128" height="195"/>
         <element name="RoundScore" positionX="-45" positionY="144" width="128" height="135"/>

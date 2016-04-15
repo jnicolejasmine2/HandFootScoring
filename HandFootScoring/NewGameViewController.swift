@@ -39,7 +39,6 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
     var numberOfTeams: Int = 2
     var fetchedGameProfiles: [ProfileGame] = []
 
-
     //Outputs
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var CancelGame: UIBarButtonItem!
@@ -71,18 +70,18 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
         startButton.backgroundColor = Style.sharedInstance().keyButtonControlDisabled()
         CancelGame.tintColor = Style.sharedInstance().keyButtonControl()
 
-        // set up the custome Segment Control
+        // set up the custom Segment Control (from ADV)
         segmentControl.items = gameDescriptions
         segmentControl.font = UIFont(name: "Helvetica Neue", size: 14)
         segmentControl.borderColor = Style.sharedInstance().tableBackgroundColor()
         segmentControl.selectedIndex = 0
-        segmentControl.addTarget(self, action: "segmentValueChanged:", forControlEvents: .ValueChanged)
+        segmentControl.addTarget(self, action: #selector(NewGameViewController.segmentValueChanged(_:)), forControlEvents: .ValueChanged)
 
         // Default to hand knee and foot which will be the first game chosen
         checkGameChosen(0)
     }
 
-    
+
 
     // ***** BUTTON MANAGEMENT  **** //
 
@@ -106,7 +105,7 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
         // Game was chosen
         startButton.enabled = true
         startButton.backgroundColor = Style.sharedInstance().keyButtonControl()
- 
+
         // Load the team/player controls
         loadTeamPlayers (numberOfTeams)
     }
@@ -132,6 +131,7 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
     @IBAction func cancelNewGameButtonAction(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
+
 
 
     // Start Game Button was Selected
@@ -181,7 +181,6 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
                 CoreDataStackManager.sharedInstance().saveContext()
             }
         }
-
         dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -221,12 +220,14 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
     }
 
 
+    // Update the array of players information to be used when a game is added
     func setPlayerInformation(player: Player!, teamIndex: Int!, playerIndex: Int!) {
-        // Update the Array that will be used to insert into the Game
+
         teamPlayerArray[teamIndex][playerIndex].updateValue(player.name, forKey: "PlayerName")
         teamPlayerArray[teamIndex][playerIndex].updateValue(player.initials, forKey: "PlayerInitials")
         teamPlayerArray[teamIndex][playerIndex].updateValue(player.pictureFileName, forKey: "PlayerImageName")
     }
+
 
 
     // ***** MANAGE BUTTONS, LABELS ON VIEW  **** //
@@ -243,9 +244,6 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
             // Get the background color based on the team number/ID
             var backgroundColor: UIColor = UIColor.whiteColor()
             backgroundColor = sf.setTeamBackgroundColor(String(teamNumber))
-
-            // Control =  "0" is the image that indicates the team number
-
 
             // Set team Number images (tag 10, 20, 30)
             //If team number is 3 and there are not 3 times just fill with whitespace else set to number in solid round
@@ -282,10 +280,10 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
                 let tag = String(teamNumber) + String(control)
                 let tagID = Int(tag)
  
-
+                // Locare the player and set initials and image name
                 if let playerName = teamPlayerArray[teamIndex][playerIndex]["PlayerName"] {
 
-                    // Locate the player and set initials and image name
+                    // find the matching player record
                     for fetchedPlayer in fetchedResultsControllerPlayers.fetchedObjects as! [Player] {
 
                         if playerName == fetchedPlayer.name {
@@ -316,13 +314,13 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
                         }
                     }
 
-
                     // Set the Player Name
                     if control == 4 || control == 5  {
 
                         // Blank out name if no team 3
                         if teamNumber == 3 && numberOfTeams < 3 {
                             sf.setLabel( view.viewWithTag(tagID!) as? UILabel, imageTextString:"   ",  backgroundColor: UIColor.whiteColor())
+
 
                         } else {
                             if let playerName = teamPlayerArray[teamIndex][playerIndex]["PlayerName"] {
@@ -379,13 +377,12 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
     }
 
 
-    // Fetch all saved Game Profiles
+    // Fetch all game profiles
     lazy var fetchedResultsController: NSFetchedResultsController = {
 
         let fetchRequest = NSFetchRequest(entityName: "ProfileGame")
 
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "gameProfileId", ascending: true)]
-
 
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
@@ -396,7 +393,7 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
     }()
 
 
-    // Fetch the scoring rules for the game -- used to pre-load the rules when the game is added
+    // Fetch the scoring rules for the games -- used to pre-load the rules when the game is added
     lazy var fetchedResultsController2: NSFetchedResultsController = {
 
         let fetchRequest = NSFetchRequest(entityName: "ProfileScoreElement")
@@ -407,11 +404,11 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
             managedObjectContext: self.sharedContext,
             sectionNameKeyPath: nil,
             cacheName: nil)
-        
+
         return fetchedResultsController
     }()
-    
-    
+
+
     // Fetch the Players, need to get their image/icon, name and initials to display and save with the game
     lazy var fetchedResultsControllerPlayers: NSFetchedResultsController = {
         
@@ -422,10 +419,8 @@ class NewGameViewController: UIViewController, UINavigationControllerDelegate, T
             managedObjectContext: self.sharedContext,
             sectionNameKeyPath: nil,
             cacheName: nil)
-        
+
         return fetchedResultsController
     }()
-    
 
-    
 }

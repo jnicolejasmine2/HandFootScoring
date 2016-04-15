@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 App Design Vault. All rights reserved.
 //
 
+
 import UIKit
 
 @IBDesignable class ADVSegmentedControl: UIControl {
@@ -68,8 +69,6 @@ import UIKit
 
     func setupView(){
 
-
-
        // layer.cornerRadius = frame.height / 2
         layer.borderColor = Style.sharedInstance().gameSelectionControl().CGColor
         layer.borderWidth = 2
@@ -81,10 +80,10 @@ import UIKit
         addIndividualItemConstraints(labels, mainView: self, padding: 0)
 
         insertSubview(thumbView, atIndex: 0)
-
-
     }
 
+
+    // Changed font and selected colors to match my app
     func setupLabels(){
 
         for label in labels {
@@ -106,9 +105,9 @@ import UIKit
             self.addSubview(label)
             labels.append(label)
         }
-
         addIndividualItemConstraints(labels, mainView: self, padding: 0)
     }
+
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -118,11 +117,11 @@ import UIKit
         selectFrame.size.width = newWidth
         thumbView.frame = selectFrame
         thumbView.backgroundColor = thumbColor
-     //   thumbView.layer.cornerRadius = thumbView.frame.height / 2
 
         displayNewSelectedIndex()
 
     }
+
 
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
 
@@ -135,14 +134,13 @@ import UIKit
             }
         }
 
-
         if calculatedIndex != nil {
             selectedIndex = calculatedIndex!
             sendActionsForControlEvents(.ValueChanged)
         }
-
         return false
     }
+
 
     func displayNewSelectedIndex(){
         for (_, item) in labels.enumerate() {
@@ -155,12 +153,9 @@ import UIKit
             self.thumbView.frame = label.frame
         }
 
-       // UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: [], animations: {
-
-        //    self.thumbView.frame = label.frame
-//
-       //     }, completion: nil)
+        // Removed Animation
     }
+
 
     func addIndividualItemConstraints(items: [UIView], mainView: UIView, padding: CGFloat) {
 
@@ -177,7 +172,6 @@ import UIKit
             if index == items.count - 1 {
 
                 rightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: mainView, attribute: NSLayoutAttribute.Right, multiplier: 1.0, constant: -padding)
-
             }else{
 
                 let nextButton = items[index+1]
@@ -207,6 +201,7 @@ import UIKit
         }
     }
 
+
     func setSelectedColors(){
         for item in labels {
             item.textColor = unselectedLabelColor
@@ -220,9 +215,11 @@ import UIKit
 
     }
 
+
     func setFont(){
         for item in labels {
             item.font = font
         }
     }
+
 }
