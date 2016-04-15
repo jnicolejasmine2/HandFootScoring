@@ -334,6 +334,11 @@ class GameTableViewController: UIViewController,  NSFetchedResultsControllerDele
             backgroundView.backgroundColor = Style.sharedInstance().tableCompleted()
         }
 
+        if fetchedGame.uploadedToLeaderboard == true {
+            cell.backgroundColor = Style.sharedInstance().tableDisabled()
+            backgroundView.backgroundColor = Style.sharedInstance().tableDisabled()
+        }
+
         // Check if game is in past. If so change the color to a dark disabled color
         let dateCompareResult =  SharedFunctions.sharedInstance().compareDates(NSDate(), toDate: fetchedGame.date, granularity: .Day)
 

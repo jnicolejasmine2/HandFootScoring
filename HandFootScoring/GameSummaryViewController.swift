@@ -134,6 +134,12 @@ class GameSummaryViewController: UIViewController, NSFetchedResultsControllerDel
                 disableOption = true
             }
 
+            // If the game has been uploaded to the leader board, then disable the buttons
+            if selectedGame!.uploadedToLeaderboard == true {
+                backgoundColor = Style.sharedInstance().teamRoundDisabled()
+                disableOption = true
+            }
+
             // Load the round scores
             let tagString =  String(fetchedRound.roundNumber) + String(fetchedRound.teamNumber)
             let tagID = Int(tagString)
